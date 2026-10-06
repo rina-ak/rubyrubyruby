@@ -1,5 +1,5 @@
 class AlbumsController < ApplicationController
-  http_basic_authenticate_with name: "admin", password: "твой_пароль", only: [:new, :create]
+  http_basic_authenticate_with name: "admin", password: "brat", only: [:new, :create]
 
   before_action :set_album, only: [:show]
 
