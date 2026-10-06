@@ -1,0 +1,17 @@
+<header class="header">
+  <div class="brand"><%= link_to "decode", root_path %></div>
+  <nav class="nav">
+    <%= link_to "Каталог", root_path %>
+    <%= link_to "Подборки", collections_path %>
+    <%= link_to "О проекте", about_path %>
+    <%= link_to "Предложить альбом", new_album_proposal_path, class: "btn-header-cta" %>
+  </nav>
+</header>
+
+<main class="container" style="text-align: center; padding: 80px 20px;">
+  <h2>Тематические подборки</h2>
+  <p style="color: #666; max-width: 480px; margin: 12px auto 24px;">
+    Раздел находится в разработке. Здесь появятся тематические коллекции по эпохам, визуальным стилям и жанрам.
+  </p>
+  <%= link_to "Вернуться в каталог", root_path, class: "btn-secondary" %>
+</main>

@@ -1,0 +1,62 @@
+<header class="header">
+  <div class="brand"><%= link_to "decode", root_path %></div>
+  <nav class="nav">
+    <%= link_to "Каталог", root_path %>
+    <%= link_to "Подборки", collections_path %>
+    <%= link_to "О проекте", about_path %>
+    <%= link_to "Предложить альбом", new_album_proposal_path, class: "btn-header-cta" %>
+  </nav>
+</header>
+
+<main class="container show-container">
+  <div class="breadcrumbs">
+    <%= link_to "каталог", root_path %> / <%= @album.artist %> / <%= @album.title %>
+  </div>
+
+  <div class="album-hero">
+    <div class="hero-cover">
+      <% if @album.cover_url.present? %>
+        <%= image_tag @album.cover_url, alt: @album.title %>
+      <% end %>
+    </div>
+
+    <div class="hero-header">
+      <div class="tag-label">разбор альбома</div>
+      <h1 class="hero-title"><%= @album.title %></h1>
+      <div class="hero-artist"><%= @album.artist %></div>
+
+      <div class="hero-submeta">
+        <%= @album.release_year %> | <%= @album.genre %> | <%= @album.duration %> | <%= @album.release_type %>
+      </div>
+
+      <div class="action-buttons">
+        <button class="btn-outline" type="button">Сохранить</button>
+        <button class="btn-outline" type="button">Поделиться</button>
+        <%= link_to "Редактировать", edit_album_path(@album), class: "btn-link" %>
+      </div>
+    </div>
+  </div>
+
+  <section class="section-block">
+    <h3>Об альбоме</h3>
+    <p class="intro-description"><%= @album.intro_text %></p>
+  </section>
+
+  <% if @album.thematic_sections.any? %>
+    <section class="section-block">
+      <h3>Тематические разделы</h3>
+      <div class="thematic-grid">
+        <% @album.thematic_sections.each do |sec| %>
+          <div class="thematic-card">
+            <h4><%= sec.title %></h4>
+            <p><%= sec.content %></p>
+          </div>
+        <% end %>
+      </div>
+    </section>
+  <% end %>
+
+  <div class="bottom-nav">
+    <%= link_to "← Назад к каталогу", albums_path, class: "btn-secondary" %>
+  </div>
+</main>

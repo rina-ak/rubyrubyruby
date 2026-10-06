@@ -1,0 +1,28 @@
+<header class="header">
+  <div class="brand"><%= link_to "decode", root_path %></div>
+  <nav class="nav">
+    <%= link_to "Каталог", root_path, class: "active" %>
+    <%= link_to "Подборки", collections_path %>
+    <%= link_to "О проекте", about_path %>
+    <%= link_to "Предложить альбом", new_album_proposal_path, class: "btn-header-cta" %>
+  </nav>
+</header>
+
+<% if notice %>
+  <div style="background: #e6f4ea; color: #137333; padding: 12px 20px; text-align: center; border-bottom: 1px solid #ceead6;">
+    <%= notice %>
+  </div>
+<% end %>
+
+<main class="container">
+  <div class="catalog-header">
+    <h1>Каталог альбомов</h1>
+    <%= link_to "Добавить альбом", new_album_path, class: "btn-secondary" %>
+  </div>
+
+  <div class="albums-grid">
+    <% @albums.each do |album| %>
+      <%= render album %>
+    <% end %>
+  </div>
+</main>

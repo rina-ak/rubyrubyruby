@@ -1,0 +1,33 @@
+<header class="header">
+  <div class="brand"><%= link_to "decode", root_path %></div>
+  <nav class="nav">
+    <%= link_to "Каталог", root_path %>
+    <%= link_to "Подборки", collections_path %>
+    <%= link_to "О проекте", about_path %>
+    <%= link_to "Предложить альбом", new_album_proposal_path, class: "btn-header-cta" %>
+  </nav>
+</header>
+<main class="container" style="max-width: 720px; padding: 40px 20px;">
+  <div class="breadcrumbs">
+    <%= link_to "главная", root_path %> / о проекте
+  </div>
+
+  <h1 style="font-size: 36px; margin-bottom: 24px;">decode — контекст за пределами звука</h1>
+
+  <p style="font-size: 18px; line-height: 1.6; color: #333; margin-bottom: 24px;">
+    Музыкальные альбомы давно перестали быть просто набором аудиодорожек. Это комплексные аудиовизуальные высказывания, в которых обложка, клипы, мода эпохи и личные кризисы артиста сплетены в единый нарратив.
+  </p>
+
+  <p style="font-size: 16px; line-height: 1.6; color: #555; margin-bottom: 32px;">
+    <strong>decode</strong> — это исследовательский медиа-сервис. Мы деконструируем культовые и знаковые релизы разных жанров: от интимного фолка и концептуального рока до кей-попа и тяжелого метала. Мы исследуем визуальный язык, культурные отсылки и закулисный контекст, который обычно ускользает при обычном прослушивании в стримингах.
+  </p>
+
+  <div style="background: #f4f4f5; padding: 24px; border-radius: 8px; margin-bottom: 40px;">
+    <h3 style="margin-top: 0;">Наша миссия</h3>
+    <p style="margin: 0; color: #444; font-size: 15px;">
+      Вернуть культуру вдумчивого погружения в альбомы как законченные арт-объекты эпохи.
+    </p>
+  </div>
+
+  <%= link_to "← Перейти в каталог альбомов", root_path, class: "btn-primary" %>
+</main>

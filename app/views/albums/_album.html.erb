@@ -1,0 +1,24 @@
+<div id="<%= dom_id album %>" class="album-card">
+  <div class="album-cover">
+    <% if album.cover_url.present? %>
+      <%= image_tag album.cover_url, alt: album.title %>
+    <% else %>
+      <div class="no-cover">Нет обложки</div>
+    <% end %>
+  </div>
+
+  <div class="album-info">
+    <div class="album-meta">
+      <%= album.release_year %> • <%= album.genre %> • <%= album.duration %>
+    </div>
+    
+    <h2 class="album-title"><%= album.title %></h2>
+    <div class="album-artist"><%= album.artist %></div>
+    
+    <p class="album-intro"><%= album.intro_text %></p>
+
+    <div class="album-actions">
+      <%= link_to "Перейти к разбору", album, class: "btn-primary" %>
+    </div>
+  </div>
+</div>

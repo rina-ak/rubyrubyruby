@@ -39,3 +39,14 @@ Thumbs.db:encryptable
 ehthumbs.db
 ehthumbs_vista.db
 [Dd]esktop.ini
+
+# SQLite databases in db/
+/db/*.sqlite3
+/db/*.sqlite3-journal
+/db/*.sqlite3-*
+
+# Windows alternate data streams (Zone.Identifier)
+*:Zone.Identifier
+
+# OS metadata
+.DS_Store

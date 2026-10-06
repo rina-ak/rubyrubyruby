@@ -1,0 +1,2 @@
+class AlbumProposal < ApplicationRecord
+end

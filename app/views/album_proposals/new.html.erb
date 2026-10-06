@@ -1,0 +1,48 @@
+<header class="header">
+  <div class="brand"><%= link_to "decode", root_path %></div>
+  <nav class="nav">
+    <%= link_to "Каталог", root_path, class: "active" %>
+    <%= link_to "Подборки", collections_path %>
+    <%= link_to "О проекте", about_path %>
+    <%= link_to "Предложить альбом", new_album_proposal_path, class: "btn-header-cta" %>
+  </nav>
+</header>
+
+<main class="container" style="max-width: 600px;">
+  <div class="breadcrumbs">
+    <%= link_to "главная", root_path %> / предложить релиз
+  </div>
+
+  <h1 style="margin-bottom: 8px;">Предложить альбом</h1>
+  <p style="color: #666; margin-bottom: 30px;">
+    Не нашел нужный релиз в медиа-сервисе? Напиши нам, и редакция подготовит визуальный и контекстный разбор.
+  </p>
+
+  <%= form_with(model: @proposal, local: true, class: "proposal-form") do |form| %>
+    <% if @proposal.errors.any? %>
+      <div style="color: red; margin-bottom: 16px;">
+        Заполни обязательные поля (исполнитель и название альбома).
+      </div>
+    <% end %>
+
+    <div style="margin-bottom: 20px;">
+      <%= form.label :artist, "Исполнитель / Группа", style: "display: block; font-weight: 500; margin-bottom: 6px;" %>
+      <%= form.text_field :artist, placeholder: "например, Radiohead или aespa", style: "width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; font-size: 15px;" %>
+    </div>
+
+    <div style="margin-bottom: 20px;">
+      <%= form.label :title, "Название альбома", style: "display: block; font-weight: 500; margin-bottom: 6px;" %>
+      <%= form.text_field :title, placeholder: "например, In Rainbows", style: "width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; font-size: 15px;" %>
+    </div>
+
+    <div style="margin-bottom: 24px;">
+      <%= form.label :notes, "Почему этот альбом важен? (необязательно)", style: "display: block; font-weight: 500; margin-bottom: 6px;" %>
+      <%= form.text_area :notes, rows: 4, placeholder: "Интересный визуал, клипы, скрытые смыслы...", style: "width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; font-size: 15px;" %>
+    </div>
+
+    <div>
+      <%= form.submit "Отправить заявку", class: "btn-primary", style: "border: none; cursor: pointer; padding: 10px 20px;" %>
+      <%= link_to "Отмена", root_path, style: "margin-left: 16px; color: #666; text-decoration: none;" %>
+    </div>
+  <% end %>
+</main>
