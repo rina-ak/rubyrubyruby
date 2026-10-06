@@ -1,24 +1,11 @@
-# README
+<div align="center">
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+# decode
 
-Things you may want to cover:
+**Медиа-платформа о культурном и музыкальном контексте альбомов**
 
-* Ruby version
+<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQfGwoVB01SLuvFI8CEz_17D8Vz_lcBk8xC751scYaigT_uI3J112cqWwE&s=10" alt="BRATwa" width="160">
 
-* System dependencies
+Разработкой и наполнением занимается команда **BRATьев**.
 
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+</div>
