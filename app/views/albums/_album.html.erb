@@ -7,6 +7,12 @@
     <% end %>
   </div>
 
+<% if album.cover.present? %>
+  <div class="album-cover" style="margin-bottom: 1.5rem;">
+    <%= image_tag album.cover.url, style: "max-width: 400px; width: 100%; height: auto; border-radius: 8px; object-fit: cover;" %>
+  </div>
+<% end %>
+
   <div class="album-info">
     <div class="album-meta">
       <%= album.release_year %> • <%= album.genre %> • <%= album.duration %>

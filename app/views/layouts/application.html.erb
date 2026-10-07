@@ -25,6 +25,21 @@
   </head>
 
   <body>
+<div class="user-nav" style="display: flex; gap: 1rem; align-items: center;">
+  <% if user_signed_in? %>
+    <span><%= link_to current_user.email, edit_user_registration_path %></span>
+    <%= button_to "Выйти", destroy_user_session_path, method: :delete, style: "background: none; border: none; color: inherit; cursor: pointer; text-decoration: underline;" %>
+  <% else %>
+    <%= link_to "Войти", new_user_session_path %>
+    <%= link_to "Регистрация", new_user_registration_path %>
+  <% end %>
+</div>
+<% if notice %>
+  <p style="color: #4ade80; padding: 0.5rem 0;"><%= notice %></p>
+<% end %>
+<% if alert %>
+  <p style="color: #f87171; padding: 0.5rem 0;"><%= alert %></p>
+<% end %>
     <%= yield %>
   </body>
 </html>

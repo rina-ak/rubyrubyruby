@@ -49,4 +49,5 @@ ehthumbs_vista.db
 *:Zone.Identifier
 
 # OS metadata
-.DS_Store
+.DS_Store/public/uploads
+/public/autoupload

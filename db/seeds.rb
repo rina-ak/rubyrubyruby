@@ -1,83 +1,93 @@
-puts "Очищаем базу данных перед наполнением..."
-Album.destroy_all
-puts "База очищена!"
+@raw_text = 'Музыкальный альбом как концептуальное высказывание эпохи постмодерна объединяет графический дизайн типографику и аудиальный нарратив. Звучание синтезаторов и аналоговых драм-машин создает аутентичную текстуру звука. Визуальный код обложки транслирует эстетику клубной культуры деконструкции и минимализма. Критики отмечают влияние гиперпопа глитча и лоуфай продакшена на современную инди сцену. Эксперименты с ритмическими паттернами и перегруженным вокалом формируют новый манифест поколения.'
+@words = @raw_text.downcase.gsub(/[—.—,«»:()]/, '').gsub(/  /, ' ').split(' ')
 
-albums_data = [
-  {
-    title: "folklore",
-    artist: "Taylor Swift",
-    release_year: 2020,
-    duration: "63:29",
-    release_type: "Студийный альбом",
-    genre: "Инди-фолк / Чембер-поп",
-    cover_url: "https://upload.wikimedia.org/wikipedia/en/f/f8/Taylor_Swift_-_Folklore.png",
-    intro_text: "Неожиданный переход от стадионного попа к интимному акустическому сторителлингу. Записанный в разгар локдауна, folklore исследует эскапизм, чужие вымышленные биографии и меланхоличную пасторальную эстетику cottagecore.",
-    sections: [
-      { section_type: "history", title: "История создания", content: "Альбом родился в изоляции весной 2020 года при дистанционном соавторстве с Аароном Десснером." },
-      { section_type: "visual", title: "Визуальный язык", content: "Черно-белая зернистая эстетика лесов Пенсильвании, уютные кардиганы и туман." },
-      { section_type: "musical", title: "Музыкальные влияния", content: "Звучание инди-рока, Bon Iver, акустические гитары и мягкое фортепиано." },
-      { section_type: "culture", title: "Культурные отсылки", content: "Главный катализатор расцвета эстетики cottagecore в соцсетях начала 2020-х." }
-    ]
-  },
-  {
-    title: "OMG",
-    artist: "NewJeans",
-    release_year: 2023,
-    duration: "06:32",
-    release_type: "Сингл-альбом",
-    genre: "K-pop / R&B / UK Garage",
-    cover_url: "https://upload.wikimedia.org/wikipedia/en/1/10/NewJeans_OMG_cover.jpg",
-    intro_text: "Сингл-альбом, закрепивший NewJeans в статусе трендсеттеров поколения: сочетание ностальгического Y2K R&B, джерси-клаба и мета-рефлексии о кумирах и фанатах.",
-    sections: [
-      { section_type: "history", title: "История создания", content: "Продолжение дебютной концепции Мин Хиджин, раскрывающее эмоциональную уязвимость подростков." },
-      { section_type: "visual", title: "Визуальный язык", content: "Режиссура Шин Усока: сюрреалистичная клиника, кроличьи мотивы и деконструкция айдол-культуры." },
-      { section_type: "musical", title: "Музыкальные влияния", content: "Плавный синтез Baltimore club, брейкбита и уличного R&B нулевых." },
-      { section_type: "culture", title: "Культурные отсылки", content: "Отсылки к фильму 'Я киборг, но это нормально' Пака Чхан Ука и волна глобального ретровейва." }
-    ]
-  },
-  {
-    title: "Blurryface",
-    artist: "Twenty One Pilots",
-    release_year: 2015,
-    duration: "52:23",
-    release_type: "Студийный альбом",
-    genre: "Альтернативный рок / Синти-поп",
-    cover_url: "https://upload.wikimedia.org/wikipedia/en/7/7d/Blurryface_by_Twenty_One_Pilots.png",
-    intro_text: "Концептуальный альбом, где вымышленный персонаж Blurryface олицетворяет внутренние страхи, неуверенность и ментальные барьеры вокалиста Тайлера Джозефа.",
-    sections: [
-      { section_type: "history", title: "История создания", content: "Эпоха прорыва дуэта из локальных клубов Огайо на стадионы по всему миру." },
-      { section_type: "visual", title: "Визуальный язык", content: "Черно-красно-белая концептуальная палитра и девять графических паттернов на обложке." },
-      { section_type: "musical", title: "Музыкальные влияния", content: "Гибрид инди-попа, регги, хип-хоп речитатива и партии укулеле." },
-      { section_type: "culture", title: "Культурные отсылки", content: "Зарождение многолетней сюжетной вселенной города Демы (Dema)." }
-    ]
-  },
-  {
-    title: "Blessed & Possessed",
-    artist: "Powerwolf",
-    release_year: 2015,
-    duration: "45:34",
-    release_type: "Студийный альбом",
-    genre: "Пауэр-метал / Хэви-метал",
-    cover_url: "https://upload.wikimedia.org/wikipedia/en/8/81/Powerwolf_-_Blessed_%26_Possessed.jpg",
-    intro_text: "Эпический метал-опус, замешанный на оперном вокале Аттилы Дорна, мифологии оборотней и католической хоровой традиции.",
-    sections: [
-      { section_type: "history", title: "История создания", content: "Запись в Studio Fredman, закрепившая статус группы как хедлайнеров европейских фестивалей." },
-      { section_type: "visual", title: "Визуальный язык", content: "Готический грим корпспэйнт, средневековые рясы и церковная сценография." },
-      { section_type: "musical", title: "Музыкальные влияния", content: "Скоростные гитарные риффы, церковный орган и монументальный мужской хор." },
-      { section_type: "culture", title: "Культурные отсылки", content: "Пародийно-серьезное обыгрывание средневековых латинских молитв и бестиариев." }
-    ]
-  }
+@artists = [
+  'Charli xcx', 'aespa', 'NewJeans', 'Beyoncé', 'PinkPantheress', 
+  'Rosalía', 'FKA twigs', 'Yves Tumor', 'Frank Ocean', 'Kendrick Lamar'
 ]
 
-albums_data.each do |data|
-  sections = data.delete(:sections)
-  album = Album.create!(data)
-  
-  sections.each do |sec|
-    album.thematic_sections.create!(sec)
-  end
+@album_titles = [
+  'BRAT', 'Armageddon', 'Get Up', 'RENAISSANCE', 'Heaven Knows',
+  'MOTOMAMI', 'CAPRISONGS', 'Heaven to a Tortured Mind', 'Blonde', 'GNX'
+]
 
-  puts "Альбом '#{album.title}' (#{album.artist}) успешно создан! ID: #{album.id}"
+def seed
+  clean_db
+  create_users
+  create_albums
+  create_comments
+  puts " База данных успешно засеяна данными decode!"
 end
 
-puts "\nБаза успешно наполнена альбомами и разделами!"
+def clean_db
+  puts "Очистка базы данных..."
+  Comment.destroy_all
+  Album.destroy_all
+  User.destroy_all
+end
+
+def create_sentence(min_words = 6, max_words = 12)
+  sentence_words = []
+  (min_words..max_words).to_a.sample.times do
+    sentence_words << @words.sample
+  end
+  sentence_words.join(' ').capitalize + '.'
+end
+
+def create_users
+  puts "Создание пользователей..."
+  
+  # админ
+  admin = User.create!(
+    email: 'admin@decode.media',
+    password: 'password123',
+    password_confirmation: 'password123',
+    admin: true,
+    role: 'admin'
+  )
+  puts "Создан администратор: #{admin.email} (пароль: password123)"
+
+  # обычные пользователи
+  4.times do |i|
+    u = User.create!(
+      email: "user#{i + 1}@decode.media",
+      password: 'password123',
+      password_confirmation: 'password123',
+      admin: false,
+      role: 'user'
+    )
+    puts "Создан пользователь: #{u.email}"
+  end
+end
+
+def create_albums
+  puts "Создание альбомов..."
+  @album_titles.each_with_index do |title, index|
+    artist = @artists[index] || @artists.sample
+
+    album_data = {
+      title: title,
+      artist: artist
+    }
+    album_data[:description] = create_sentence(10, 20) if Album.column_names.include?('description')
+    album_data[:year] = rand(2018..2026) if Album.column_names.include?('year')
+    album_data[:genre] = ['Electronic', 'Hyperpop', 'R&B', 'Art Pop', 'Hip-Hop'].sample if Album.column_names.include?('genre')
+
+    album = Album.create!(album_data)
+    puts "Альбом: #{album.title} — #{album.artist}"
+  end
+end
+
+def create_comments
+  puts "Создание комментариев..."
+  Album.all.each do |album|
+    rand(2..5).times do
+      album.comments.create!(
+        body: create_sentence(4, 10)
+      )
+    end
+  end
+  puts "Комментарии успешно привязаны ко всем альбомам."
+end
+
+seed

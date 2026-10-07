@@ -51,6 +51,11 @@
     <%= form.textarea :intro_text %>
   </div>
 
+<div style="margin-bottom: 1rem;">
+    <%= form.label :cover, "Обложка альбома", style: "display: block;" %>
+    <%= form.file_field :cover %>
+  </div>
+
   <div>
     <%= form.submit %>
   </div>

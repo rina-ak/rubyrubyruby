@@ -59,4 +59,36 @@
   <div class="bottom-nav">
     <%= link_to "← Назад к каталогу", albums_path, class: "btn-secondary" %>
   </div>
+
+<hr style="margin: 2rem 0; border: 0; border-top: 1px solid #333;">
+
+<section class="comments-section">
+  <h3>Комментарии (<%= @album.comments.count %>)</h3>
+
+  <div class="comments-list" style="margin-bottom: 2rem;">
+    <% if @album.comments.any? %>
+      <% @album.comments.each do |comment| %>
+        <div style="background: rgba(255,255,255,0.05); padding: 0.8rem 1rem; border-radius: 6px; margin-bottom: 0.6rem;">
+          <p style="margin: 0;"><%= comment.body %></p>
+          <small style="opacity: 0.6;">
+  <strong><%= comment.user&.email || "Гость" %></strong> • <%= comment.created_at.strftime("%d.%m.%Y %H:%M") %>
+</small>
+        </div>
+      <% end %>
+    <% else %>
+      <p style="opacity: 0.6;">Комментариев пока нет. Будьте первыми!</p>
+    <% end %>
+  </div>
+
+  <h4>Оставить комментарий</h4>
+  <%= form_with(model: [ @album, @album.comments.build ], local: true) do |f| %>
+    <div style="margin-bottom: 1rem;">
+      <%= f.text_area :body, rows: 3, placeholder: "Напишите ваши мысли об альбоме...", style: "width: 100%; max-width: 600px; padding: 0.5rem; border-radius: 4px;" %>
+    </div>
+    <div>
+      <%= f.submit "Отправить комментарий" %>
+    </div>
+  <% end %>
+</section>
+
 </main>

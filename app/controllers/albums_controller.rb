@@ -1,5 +1,5 @@
 class AlbumsController < ApplicationController
-  http_basic_authenticate_with name: "admin", password: "brat", only: [:new, :create]
+ before_action :authenticate_user!, except: [:index, :show]
 
   before_action :set_album, only: [:show]
 
@@ -32,6 +32,6 @@ class AlbumsController < ApplicationController
   end
 
   def album_params
-    params.require(:album).permit(:title, :artist, :release_year, :genre, :duration, :cover_url, :intro)
+    params.require(:album).permit(:title, :artist, :description, :cover)
   end
 end

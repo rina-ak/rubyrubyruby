@@ -64,3 +64,9 @@ group :test do
   gem "capybara"
   gem "selenium-webdriver"
 end
+
+gem "carrierwave", "~> 3.1"
+
+gem "devise", "~> 5.0"
+
+gem "cancancan", "~> 3.6"
