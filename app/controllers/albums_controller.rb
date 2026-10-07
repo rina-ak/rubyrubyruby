@@ -16,15 +16,14 @@ class AlbumsController < ApplicationController
   def edit
   end
 
-  def create
-    @album = Album.new(album_params)
-
-    if @album.save
-      redirect_to @album, notice: "Альбом успешно создан."
-    else
-      render :new, status: :unprocessable_entity
-    end
+def create
+  @album = Album.new(album_params)
+  if @album.save
+    redirect_to @album, notice: "Альбом успешно создан."
+  else
+    render :new, status: :unprocessable_entity
   end
+end
 
   def update
     if @album.update(album_params)

@@ -42,19 +42,14 @@
   </div>
 
   <div>
-    <%= form.label :cover_url, style: "display: block" %>
-    <%= form.text_field :cover_url %>
-  </div>
-
-  <div>
     <%= form.label :intro_text, style: "display: block" %>
     <%= form.textarea :intro_text %>
   </div>
 
 <div style="margin-bottom: 1rem;">
-    <%= form.label :cover, "Обложка альбома", style: "display: block;" %>
-    <%= form.file_field :cover %>
-  </div>
+  <%= form.label :cover, "Обложка альбома", style: "display: block;" %>
+  <%= form.file_field :cover, accept: "image/*" %>
+</div>
 
   <div>
     <%= form.submit %>

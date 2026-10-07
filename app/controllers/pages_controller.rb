@@ -1,4 +1,9 @@
 class PagesController < ApplicationController
-  def collections; end
-  def about; end
+  def collections
+    @genres = Album.pluck(:genre).compact.uniq
+    @albums = Album.all
+  end
+
+  def about
+  end
 end

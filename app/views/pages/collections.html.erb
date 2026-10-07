@@ -1,17 +1,32 @@
-<header class="header">
-  <div class="brand"><%= link_to "decode", root_path %></div>
-  <nav class="nav">
-    <%= link_to "Каталог", root_path %>
-    <%= link_to "Подборки", collections_path %>
-    <%= link_to "О проекте", about_path %>
-    <%= link_to "Предложить альбом", new_album_proposal_path, class: "btn-header-cta" %>
-  </nav>
-</header>
+<div class="catalog-header">
+  <h1>Тематические подборки</h1>
+</div>
 
-<main class="container" style="text-align: center; padding: 80px 20px;">
-  <h2>Тематические подборки</h2>
-  <p style="color: #666; max-width: 480px; margin: 12px auto 24px;">
-    Раздел находится в разработке. Здесь появятся тематические коллекции по эпохам, визуальным стилям и жанрам.
-  </p>
-  <%= link_to "Вернуться в каталог", root_path, class: "btn-secondary" %>
-</main>
+<p style="color: #666; margin-bottom: 2rem; font-size: 15px; max-width: 680px;">
+  Кураторские срезы музыкальных сцен, визуальных кодов и звуковых экспериментов.
+</p>
+
+<!-- Блок жанровых срезов -->
+<div class="thematic-grid" style="margin-bottom: 3rem;">
+  <% @genres.each do |genre| %>
+    <% genre_albums = Album.where(genre: genre) %>
+    <div class="thematic-card">
+      <div class="tag-label" style="font-size: 12px; text-transform: uppercase; color: #888; margin-bottom: 6px;">Жанровый фокус</div>
+      <h4><%= genre %></h4>
+      <p style="margin-top: 8px; color: #555; font-size: 14px;">
+        <%= genre_albums.count %> <%= genre_albums.count == 1 ? "релиз" : "релизов" %> в коллекции
+      </p>
+    </div>
+  <% end %>
+</div>
+
+<!-- Блок всех альбомов подборки -->
+<div class="catalog-header" style="margin-top: 2rem;">
+  <h2 style="font-size: 22px;">Все релизы подборок</h2>
+</div>
+
+<div class="albums-grid">
+  <% @albums.each do |album| %>
+    <%= render album %>
+  <% end %>
+</div>

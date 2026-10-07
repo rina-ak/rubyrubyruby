@@ -4,7 +4,7 @@
     <link rel="icon" type="image/x-icon" href="/favicon.ico">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     
     <title><%= content_for(:title) || "Decode" %></title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -16,7 +16,6 @@
 
     <%= yield :head %>
 
-    <%# Includes all stylesheet files in app/assets/stylesheets %>
     <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
   </head>
@@ -27,22 +26,26 @@
         <%= link_to "decode", root_path %>
       </div>
 
-      <nav class="nav">
-        <%= link_to "Каталог", root_path, class: ("active" if current_page?(root_path)) %>
-        <%= link_to "Подборки", root_path %>
-        <%= link_to "О проекте", root_path %>
+<nav class="nav" style="display: flex; align-items: center; gap: 20px;">
+        <%= link_to "Каталог", root_path %>
+        <%= link_to "Подборки", collections_path %>
+        <%= link_to "О проекте", about_path %>
 
         <% if user_signed_in? %>
-          <span style="margin-left: 24px; font-size: 14px; color: #777;">
-            <%= current_user.email %>
-          </span>
-          <%= button_to "Выйти", destroy_user_session_path, method: :delete, style: "margin-left: 16px; background: none; border: none; font-size: 15px; color: #666; cursor: pointer; padding: 0; font-family: inherit;", onmouseover: "this.style.color='#000'", onmouseout: "this.style.color='#666'" %>
+          <div style="display: flex; align-items: center; gap: 12px; margin-left: 12px; padding-left: 16px; border-left: 1px solid #e5e5e5;">
+            <span style="font-size: 14px; color: #666;">
+              <%= current_user.email %>
+            </span>
+            <%= button_to "Выйти", destroy_user_session_path, method: :delete, form: { style: "display: inline;" }, style: "background: none; border: none; font-size: 14px; color: #888; cursor: pointer; padding: 0; font-family: inherit; transition: color 0.15s ease;", onmouseover: "this.style.color='#000'", onmouseout: "this.style.color='#888'" %>
+          </div>
         <% else %>
-          <%= link_to "Войти", new_user_session_path %>
-          <%= link_to "Регистрация", new_user_registration_path %>
+          <div style="display: flex; align-items: center; gap: 16px; margin-left: 12px;">
+            <%= link_to "Войти", new_user_session_path %>
+            <%= link_to "Регистрация", new_user_registration_path %>
+          </div>
         <% end %>
 
-        <%= link_to "Предложить альбом", new_album_path, class: "btn-header-cta" rescue nil %>
+        <%= link_to "Предложить альбом", new_album_path, class: "btn-header-cta", style: "margin-left: 8px;" %>
       </nav>
     </header>
 
