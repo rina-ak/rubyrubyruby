@@ -135,4 +135,15 @@ def create_comments
   end
 end
 
+
+Album.all.each_with_index do |album, index|
+  types = ["LP", "EP", "Single", "LP"]
+  durations = ["42:15", "19:40", "38:50", "51:02", "24:10"]
+
+  album.update(
+    release_type: album.release_type.presence || types[index % types.size],
+    duration: album.duration.presence || durations[index % durations.size]
+  )
+end
+
 seed

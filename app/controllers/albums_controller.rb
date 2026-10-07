@@ -19,19 +19,19 @@ class AlbumsController < ApplicationController
 def create
   @album = Album.new(album_params)
   if @album.save
-    redirect_to @album, notice: "Альбом успешно создан."
+    redirect_to album_path(@album), notice: "Альбом успешно создан."
   else
     render :new, status: :unprocessable_entity
   end
 end
 
-  def update
-    if @album.update(album_params)
-      redirect_to @album, notice: "Альбом успешно обновлен."
-    else
-      render :edit, status: :unprocessable_entity
-    end
+def update
+  if @album.update(album_params)
+    redirect_to album_path(@album), notice: "Альбом успешно обновлен."
+  else
+    render :edit, status: :unprocessable_entity
   end
+end
 
   def destroy
     @album.destroy
@@ -44,7 +44,7 @@ end
     @album = Album.find(params[:id])
   end
 
-  def album_params
-    params.require(:album).permit(:title, :artist, :genre, :year, :description, :cover)
-  end
+def album_params
+  params.require(:album).permit(:title, :artist, :genre, :year, :description, :duration, :release_type, :cover)
+end
 end

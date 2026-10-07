@@ -1,14 +1,14 @@
 class CommentsController < ApplicationController
   before_action :set_album
 
- def create
+def create
   @comment = @album.comments.build(comment_params)
   @comment.user = current_user if user_signed_in?
 
   if @comment.save
-    redirect_to @album, notice: "Комментарий успешно добавлен."
+    redirect_to album_path(@album), notice: "Комментарий успешно добавлен."
   else
-    redirect_to @album, alert: "Не удалось добавить комментарий."
+    redirect_to album_path(@album), alert: "Не удалось добавить комментарий."
   end
 end
 
