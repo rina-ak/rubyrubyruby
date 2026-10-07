@@ -1,94 +1,96 @@
-<header class="header">
-  <div class="brand"><%= link_to "decode", root_path %></div>
-  <nav class="nav">
-    <%= link_to "Каталог", root_path %>
-    <%= link_to "Подборки", collections_path %>
-    <%= link_to "О проекте", about_path %>
-    <%= link_to "Предложить альбом", new_album_proposal_path, class: "btn-header-cta" %>
-  </nav>
-</header>
+<div class="breadcrumbs">
+  <%= link_to "каталог", root_path %> / <%= @album.artist %> / <%= @album.title %>
+</div>
 
-<main class="container show-container">
-  <div class="breadcrumbs">
-    <%= link_to "каталог", root_path %> / <%= @album.artist %> / <%= @album.title %>
+<div class="album-hero">
+  <div class="hero-cover">
+    <% if @album.cover.present? %>
+      <%= image_tag @album.cover.url, alt: @album.title %>
+    <% else %>
+      <div style="width: 260px; height: 260px; background: #eee; border-radius: 6px; display: flex; align-items: center; justify-content: center; color: #888;">
+        Нет обложки
+      </div>
+    <% end %>
   </div>
 
-  <div class="album-hero">
-    <div class="hero-cover">
-      <% if @album.cover_url.present? %>
-        <%= image_tag @album.cover_url, alt: @album.title %>
+  <div class="hero-header">
+    <div class="tag-label" style="font-size: 13px; text-transform: uppercase; letter-spacing: 0.05em; color: #777; margin-bottom: 4px;">разбор альбома</div>
+    <h1 class="hero-title"><%= @album.title %></h1>
+    <div class="hero-artist"><%= @album.artist %></div>
+
+    <div class="hero-submeta">
+      <%= @album.year %> | <%= @album.genre.presence || "Electronic" %>
+      <% if @album.respond_to?(:duration) && @album.duration.present? %> | <%= @album.duration %><% end %>
+      <% if @album.respond_to?(:release_type) && @album.release_type.present? %> | <%= @album.release_type %><% end %>
+    </div>
+
+    <div class="action-buttons">
+      <% if can? :update, @album %>
+        <%= link_to "Редактировать", edit_album_path(@album), class: "btn-secondary" %>
+      <% end %>
+      <% if can? :destroy, @album %>
+        <%= button_to "Удалить", album_path(@album), method: :delete, data: { turbo_confirm: "Точно удалить альбом?" }, class: "btn-outline", style: "color: #b91c1c; border-color: #fca5a5;" %>
       <% end %>
     </div>
-
-    <div class="hero-header">
-      <div class="tag-label">разбор альбома</div>
-      <h1 class="hero-title"><%= @album.title %></h1>
-      <div class="hero-artist"><%= @album.artist %></div>
-
-      <div class="hero-submeta">
-        <%= @album.release_year %> | <%= @album.genre %> | <%= @album.duration %> | <%= @album.release_type %>
-      </div>
-
-      <div class="action-buttons">
-        <button class="btn-outline" type="button">Сохранить</button>
-        <button class="btn-outline" type="button">Поделиться</button>
-        <%= link_to "Редактировать", edit_album_path(@album), class: "btn-link" %>
-      </div>
-    </div>
   </div>
+</div>
 
+<section class="section-block">
+  <h3 style="font-size: 20px; font-weight: 600; margin-bottom: 12px;">Об альбоме</h3>
+  <div class="intro-description" style="font-size: 16px; line-height: 1.7; color: #222; max-width: 760px; background: #fff; padding: 24px; border: 1px solid #e5e5e5; border-radius: 8px;">
+    <% if @album.description.present? %>
+      <%= simple_format(@album.description) %>
+    <% else %>
+      <p style="color: #888; margin: 0;">Разбор для этого альбома еще не добавлен.</p>
+    <% end %>
+  </div>
+</section>
+
+<% if @album.respond_to?(:thematic_sections) && @album.thematic_sections.any? %>
   <section class="section-block">
-    <h3>Об альбоме</h3>
-    <p class="intro-description"><%= @album.intro_text %></p>
+    <h3>Тематические разделы</h3>
+    <div class="thematic-grid">
+      <% @album.thematic_sections.each do |sec| %>
+        <div class="thematic-card">
+          <h4><%= sec.title %></h4>
+          <p><%= sec.content %></p>
+        </div>
+      <% end %>
+    </div>
   </section>
+<% end %>
 
-  <% if @album.thematic_sections.any? %>
-    <section class="section-block">
-      <h3>Тематические разделы</h3>
-      <div class="thematic-grid">
-        <% @album.thematic_sections.each do |sec| %>
-          <div class="thematic-card">
-            <h4><%= sec.title %></h4>
-            <p><%= sec.content %></p>
-          </div>
-        <% end %>
-      </div>
-    </section>
-  <% end %>
+<div class="bottom-nav" style="margin-top: 30px;">
+  <%= link_to "← Назад к каталогу", root_path, class: "btn-secondary" %>
+</div>
 
-  <div class="bottom-nav">
-    <%= link_to "← Назад к каталогу", albums_path, class: "btn-secondary" %>
-  </div>
-
-<hr style="margin: 2rem 0; border: 0; border-top: 1px solid #333;">
+<hr style="margin: 2.5rem 0; border: 0; border-top: 1px solid #eaeaea;">
 
 <section class="comments-section">
   <h3>Комментарии (<%= @album.comments.count %>)</h3>
 
-  <div class="comments-list" style="margin-bottom: 2rem;">
+  <div class="comments-list" style="margin: 1.5rem 0 2rem 0;">
     <% if @album.comments.any? %>
       <% @album.comments.each do |comment| %>
-        <div style="background: rgba(255,255,255,0.05); padding: 0.8rem 1rem; border-radius: 6px; margin-bottom: 0.6rem;">
-          <p style="margin: 0;"><%= comment.body %></p>
-          <small style="opacity: 0.6;">
-  <strong><%= comment.user&.email || "Гость" %></strong> • <%= comment.created_at.strftime("%d.%m.%Y %H:%M") %>
-</small>
+        <div style="background: #fff; border: 1px solid #eaeaea; padding: 1rem 1.2rem; border-radius: 6px; margin-bottom: 0.8rem;">
+          <p style="margin: 0 0 0.5rem 0; font-size: 15px; color: #222;"><%= comment.body %></p>
+          <small style="color: #777; font-size: 13px;">
+            <strong><%= comment.user&.email || "Гость" %></strong> • <%= comment.created_at.strftime("%d.%m.%Y %H:%M") %>
+          </small>
         </div>
       <% end %>
     <% else %>
-      <p style="opacity: 0.6;">Комментариев пока нет. Будьте первыми!</p>
+      <p style="color: #777;">Комментариев пока нет. Будьте первыми!</p>
     <% end %>
   </div>
 
   <h4>Оставить комментарий</h4>
   <%= form_with(model: [ @album, @album.comments.build ], local: true) do |f| %>
     <div style="margin-bottom: 1rem;">
-      <%= f.text_area :body, rows: 3, placeholder: "Напишите ваши мысли об альбоме...", style: "width: 100%; max-width: 600px; padding: 0.5rem; border-radius: 4px;" %>
+      <%= f.text_area :body, rows: 3, placeholder: "Напишите ваши мысли об альбоме...", style: "width: 100%; max-width: 600px; padding: 10px; border: 1px solid #ccc; border-radius: 6px; font-family: inherit; font-size: 14px; display: block;" %>
     </div>
     <div>
-      <%= f.submit "Отправить комментарий" %>
+      <%= f.submit "Отправить комментарий", class: "btn-primary", style: "border: none; cursor: pointer;" %>
     </div>
   <% end %>
 </section>
-
-</main>

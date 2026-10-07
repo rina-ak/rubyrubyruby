@@ -1,30 +1,25 @@
-<div id="<%= dom_id album %>" class="album-card">
+<div class="album-card" id="<%= dom_id album %>">
   <div class="album-cover">
-    <% if album.cover_url.present? %>
-      <%= image_tag album.cover_url, alt: album.title %>
+    <% if album.cover.present? %>
+      <%= image_tag album.cover.url, alt: album.title %>
     <% else %>
-      <div class="no-cover">Нет обложки</div>
+      <div style="width: 140px; height: 140px; background: #eee; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 13px; color: #888;">
+        Нет обложки
+      </div>
     <% end %>
   </div>
 
-<% if album.cover.present? %>
-  <div class="album-cover" style="margin-bottom: 1.5rem;">
-    <%= image_tag album.cover.url, style: "max-width: 400px; width: 100%; height: auto; border-radius: 8px; object-fit: cover;" %>
-  </div>
-<% end %>
-
   <div class="album-info">
     <div class="album-meta">
-      <%= album.release_year %> • <%= album.genre %> • <%= album.duration %>
+      • <%= album.genre.presence || "Electronic" %> • <%= album.year %>
     </div>
-    
-    <h2 class="album-title"><%= album.title %></h2>
+    <h3 class="album-title"><%= album.title %></h3>
     <div class="album-artist"><%= album.artist %></div>
     
-    <p class="album-intro"><%= album.intro_text %></p>
+    <% if album.description.present? %>
+      <div class="album-intro"><%= album.description %></div>
+    <% end %>
 
-    <div class="album-actions">
-      <%= link_to "Перейти к разбору", album, class: "btn-primary" %>
-    </div>
+    <%= link_to "Перейти к разбору", album_path(album), class: "btn-primary" %>
   </div>
 </div>

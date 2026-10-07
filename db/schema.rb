@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_10_07_052349) do
+ActiveRecord::Schema[8.1].define(version: 2026_10_07_061651) do
   create_table "album_proposals", force: :cascade do |t|
     t.string "artist"
     t.datetime "created_at", null: false
@@ -24,6 +24,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_07_052349) do
     t.string "cover"
     t.string "cover_url"
     t.datetime "created_at", null: false
+    t.text "description"
     t.string "duration"
     t.string "genre"
     t.text "intro_text"
@@ -31,6 +32,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_07_052349) do
     t.integer "release_year"
     t.string "title"
     t.datetime "updated_at", null: false
+    t.integer "year"
   end
 
   create_table "comments", force: :cascade do |t|
