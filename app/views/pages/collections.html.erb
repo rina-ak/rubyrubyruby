@@ -10,23 +10,43 @@
 <div class="thematic-grid" style="margin-bottom: 3rem;">
   <% @genres.each do |genre| %>
     <% genre_albums = Album.where(genre: genre) %>
-    <div class="thematic-card">
-      <div class="tag-label" style="font-size: 12px; text-transform: uppercase; color: #888; margin-bottom: 6px;">Жанровый фокус</div>
-      <h4><%= genre %></h4>
-      <p style="margin-top: 8px; color: #555; font-size: 14px;">
-        <%= genre_albums.count %> <%= genre_albums.count == 1 ? "релиз" : "релизов" %> в коллекции
-      </p>
-    </div>
+    <% is_active = (params[:genre] == genre) %>
+
+    <%= link_to collections_path(genre: is_active ? nil : genre), style: "text-decoration: none; color: inherit; display: block;" do %>
+      <div class="thematic-card" style="cursor: pointer; transition: border-color 0.15s ease, background-color 0.15s ease; <%= 'border: 2px solid #111; background: #fafafa;' if is_active %>">
+        <div class="tag-label" style="font-size: 12px; text-transform: uppercase; color: <%= is_active ? '#111' : '#888' %>; margin-bottom: 6px; font-weight: <%= is_active ? '600' : 'normal' %>;">
+          <%= is_active ? "✓ Выбрано" : "Жанровый фокус" %>
+        </div>
+        <h4><%= genre %></h4>
+        <p style="margin-top: 8px; color: #555; font-size: 14px;">
+          <%= genre_albums.count %> <%= genre_albums.count == 1 ? "релиз" : "релизов" %> в коллекции
+        </p>
+      </div>
+    <% end %>
   <% end %>
 </div>
 
 <!-- Блок всех альбомов подборки -->
-<div class="catalog-header" style="margin-top: 2rem;">
-  <h2 style="font-size: 22px;">Все релизы подборок</h2>
+<div class="catalog-header" style="margin-top: 2rem; display: flex; justify-content: space-between; align-items: baseline;">
+  <h2 style="font-size: 22px;">
+    <% if params[:genre].present? %>
+      Релизы в жанре «<%= params[:genre] %>» (<%= @albums.count %>)
+    <% else %>
+      Все релизы подборок
+    <% end %>
+  </h2>
+
+  <% if params[:genre].present? %>
+    <%= link_to "Показать все альбомы ✕", collections_path, style: "font-size: 14px; color: #666; text-decoration: underline;" %>
+  <% end %>
 </div>
 
 <div class="albums-grid">
-  <% @albums.each do |album| %>
-    <%= render album %>
+  <% if @albums.any? %>
+    <% @albums.each do |album| %>
+      <%= render album %>
+    <% end %>
+  <% else %>
+    <p style="color: #888; grid-column: 1 / -1; padding: 2rem 0;">В этой категории пока нет добавленных альбомов.</p>
   <% end %>
 </div>
