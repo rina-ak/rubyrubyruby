@@ -1,7 +1,7 @@
-<%= form_with(model: album) do |form| %>
+<%= form_with(model: album, class: "album-form") do |form| %>
   <% if album.errors.any? %>
-    <div style="color: red; margin-bottom: 1.5rem;">
-      <h2><%= pluralize(album.errors.count, "error") %> prohibited this album from being saved:</h2>
+    <div class="form-errors-block">
+      <h2>Не удалось сохранить альбом (<%= russian_plural(album.errors.count, "ошибка", "ошибки", "ошибок") %>):</h2>
       <ul>
         <% album.errors.each do |error| %>
           <li><%= error.full_message %></li>
@@ -10,56 +10,56 @@
     </div>
   <% end %>
 
-  <div style="margin-bottom: 1rem;">
-    <%= form.label :title, "Название", style: "display: block;" %>
+  <div class="form-field">
+    <%= form.label :title, "Название", class: "field-label" %>
     <%= form.text_field :title %>
   </div>
 
-  <div style="margin-bottom: 1rem;">
-    <%= form.label :artist, "Исполнитель", style: "display: block;" %>
+  <div class="form-field">
+    <%= form.label :artist, "Исполнитель", class: "field-label" %>
     <%= form.text_field :artist %>
   </div>
 
-  <div style="margin-bottom: 1rem;">
-    <%= form.label :year, "Год выпуска", style: "display: block;" %>
+  <div class="form-field">
+    <%= form.label :year, "Год выпуска", class: "field-label" %>
     <%= form.number_field :year %>
   </div>
 
-  <div style="margin-bottom: 1rem;">
-    <%= form.label :duration, "Длительность", style: "display: block;" %>
+  <div class="form-field">
+    <%= form.label :duration, "Длительность", class: "field-label" %>
     <%= form.text_field :duration %>
   </div>
 
-  <div style="margin-bottom: 1rem;">
-    <%= form.label :release_type, "Тип релиза", style: "display: block;" %>
+  <div class="form-field">
+    <%= form.label :release_type, "Тип релиза", class: "field-label" %>
     <%= form.text_field :release_type %>
   </div>
 
-  <div style="margin-bottom: 1rem;">
-    <%= form.label :genre, "Жанр", style: "display: block;" %>
+  <div class="form-field">
+    <%= form.label :genre, "Жанр", class: "field-label" %>
     <%= form.text_field :genre %>
   </div>
 
-  <div style="margin-bottom: 1rem;">
-    <%= form.label :description, "Описание", style: "display: block;" %>
-    <%= form.text_area :description, rows: 5, style: "width: 100%; max-width: 500px;" %>
+  <div class="form-field">
+    <%= form.label :description, "Описание", class: "field-label" %>
+    <%= form.text_area :description, rows: 5, class: "text-area-bounded" %>
   </div>
 
-  <div style="margin-bottom: 1rem;">
-    <%= form.label :cover, "Обложка альбома", style: "display: block;" %>
+  <div class="form-field">
+    <%= form.label :cover, "Обложка альбома", class: "field-label" %>
     <% if album.cover.present? %>
-      <div style="margin: 8px 0;">
-        <span style="font-size: 13px; color: #666; display: block; margin-bottom: 4px;">Текущая обложка:</span>
-        <img src="<%= album.cover.to_s.start_with?('/') ? album.cover.to_s : album.cover.url %>" 
-             alt="<%= album.title %>" 
-             style="width: 120px; height: 120px; object-fit: cover; border-radius: 6px; display: block;">
+      <div class="current-cover">
+        <span class="current-cover-label">Текущая обложка:</span>
+        <img src="<%= album.cover.to_s.start_with?('/') ? album.cover.to_s : album.cover.url %>"
+             alt="<%= album.title %>"
+             class="cover-thumb">
       </div>
     <% end %>
     <%= form.file_field :cover, accept: "image/*" %>
-    <small style="display: block; color: #888; margin-top: 4px;">Оставьте пустым, если не хотите менять обложку</small>
+    <small class="form-hint">Оставьте пустым, если не хотите менять обложку</small>
   </div>
 
-  <div style="margin-top: 1.5rem;">
+  <div class="form-actions">
     <%= form.submit "Сохранить", class: "btn" %>
   </div>
 <% end %>

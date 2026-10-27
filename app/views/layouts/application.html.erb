@@ -5,7 +5,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-    
+
     <title><%= content_for(:title) || "Decode" %></title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -26,38 +26,71 @@
         <%= link_to "decode", root_path %>
       </div>
 
-<nav class="nav" style="display: flex; align-items: center; gap: 20px;">
-        <%= link_to "Каталог", root_path %>
+      <nav class="nav">
+        <%= link_to "Каталог", albums_path %>
         <%= link_to "Подборки", collections_path %>
         <%= link_to "О проекте", about_path %>
+        <button type="button" class="btn-text" data-search-open>Поиск</button>
 
         <% if user_signed_in? %>
-          <div style="display: flex; align-items: center; gap: 12px; margin-left: 12px; padding-left: 16px; border-left: 1px solid #e5e5e5;">
-            <span style="font-size: 14px; color: #666;">
+          <div class="nav-account">
+            <span class="nav-user-email">
               <%= current_user.email %>
             </span>
-            <%= button_to "Выйти", destroy_user_session_path, method: :delete, form: { style: "display: inline;" }, style: "background: none; border: none; font-size: 14px; color: #888; cursor: pointer; padding: 0; font-family: inherit; transition: color 0.15s ease;", onmouseover: "this.style.color='#000'", onmouseout: "this.style.color='#888'" %>
+            <%= button_to "Выйти", destroy_user_session_path, method: :delete, form: { class: "inline-form" }, class: "btn-text" %>
           </div>
         <% else %>
-          <div style="display: flex; align-items: center; gap: 16px; margin-left: 12px;">
+          <div class="nav-account-guest">
             <%= link_to "Войти", new_user_session_path %>
             <%= link_to "Регистрация", new_user_registration_path %>
           </div>
         <% end %>
 
-        <%= link_to "Предложить альбом", new_album_proposal_path, class: "btn-header-cta", style: "margin-left: 8px;" %>
+        <% if can?(:read, AlbumProposal) %>
+          <%= link_to "Заявки", album_proposals_path %>
+        <% end %>
+        <%= link_to "Предложить альбом", new_album_proposal_path, class: "btn-header-cta" %>
       </nav>
     </header>
 
     <main class="container">
       <% if notice %>
-        <p style="background: #e6f9ed; color: #1e7e34; padding: 10px 16px; border-radius: 6px; margin-bottom: 20px; font-size: 14px;"><%= notice %></p>
+        <p class="flash-notice"><%= notice %></p>
       <% end %>
       <% if alert %>
-        <p style="background: #fdf2f2; color: #9b1c1c; padding: 10px 16px; border-radius: 6px; margin-bottom: 20px; font-size: 14px;"><%= alert %></p>
+        <p class="flash-alert"><%= alert %></p>
       <% end %>
 
       <%= yield %>
     </main>
+    <%= render "albums/search_modal" %>
+    <script>
+      (function () {
+        var modal = document.getElementById("search-modal");
+        if (!modal) return;
+        var input = modal.querySelector("[data-search-input]");
+
+        function openModal() {
+          modal.hidden = false;
+          document.body.classList.add("search-open");
+          if (input) input.focus();
+        }
+
+        function closeModal() {
+          modal.hidden = true;
+          document.body.classList.remove("search-open");
+        }
+
+        document.querySelectorAll("[data-search-open]").forEach(function (button) {
+          button.addEventListener("click", openModal);
+        });
+        modal.querySelectorAll("[data-search-close]").forEach(function (button) {
+          button.addEventListener("click", closeModal);
+        });
+        document.addEventListener("keydown", function (event) {
+          if (event.key === "Escape") closeModal();
+        });
+      })();
+    </script>
   </body>
 </html>

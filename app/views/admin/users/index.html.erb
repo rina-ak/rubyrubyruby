@@ -1,0 +1,20 @@
+<% content_for :title, "Пользователи" %>
+
+<section class="admin-page">
+  <header class="admin-head">
+    <h1>Пользователи</h1>
+    <p><%= russian_plural(@users.size, "пользователь", "пользователя", "пользователей") %></p>
+  </header>
+  <%= render "admin/nav" %>
+
+  <div class="admin-list">
+    <% @users.each do |user| %>
+      <article class="admin-row">
+        <div>
+          <h3><%= user.email %></h3>
+          <p class="admin-muted"><%= user.admin? ? "админ" : "пользователь" %> · <%= l(user.created_at, format: :short) %></p>
+        </div>
+      </article>
+    <% end %>
+  </div>
+</section>

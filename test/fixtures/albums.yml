@@ -3,7 +3,7 @@
 one:
   title: MyString
   artist: MyString
-  release_year: 1
+  year: 1
   duration: MyString
   release_type: MyString
   genre: MyString
@@ -13,7 +13,7 @@ one:
 two:
   title: MyString
   artist: MyString
-  release_year: 1
+  year: 1
   duration: MyString
   release_type: MyString
   genre: MyString

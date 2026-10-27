@@ -1,10 +1,134 @@
-<div class="catalog-header">
-  <h1>Каталог альбомов</h1>
-  <%= link_to "Добавить альбом", new_album_path, class: "btn-secondary" %>
-</div>
+<% content_for :title, "Альбомы" %>
+<% albums_count = @albums.size %>
+<% albums_word = if albums_count % 10 == 1 && albums_count % 100 != 11
+     "альбом"
+   elsif (2..4).cover?(albums_count % 10) && !(12..14).cover?(albums_count % 100)
+     "альбома"
+   else
+     "альбомов"
+   end %>
+<% filter_groups = Album.catalog_filter_groups %>
 
-<div class="albums-grid">
-  <% @albums.each do |album| %>
-    <%= render album %>
-  <% end %>
-</div>
+<section class="decode-catalog">
+  <div class="decode-catalog-head">
+    <h1 class="decode-catalog-title">Альбомы</h1>
+    <p class="decode-catalog-count" data-catalog-count data-catalog-total="<%= albums_count %>"><%= albums_count %> <%= albums_word %></p>
+  </div>
+
+  <div class="decode-catalog-layout">
+    <aside class="decode-catalog-side">
+      <label class="decode-catalog-search" id="catalog-search">
+        <%= image_tag "catalog/search.svg", alt: "", class: "decode-catalog-search-icon" %>
+        <input type="search" placeholder="Найти альбом или исполнителя" data-catalog-query autocomplete="off">
+      </label>
+
+      <div class="decode-catalog-filters">
+        <button type="button" class="decode-catalog-filters-summary" aria-expanded="false">
+          <span>Фильтры</span>
+          <%= image_tag "catalog/plus.svg", alt: "", class: "decode-catalog-plus" %>
+        </button>
+        <div class="decode-catalog-filter-list">
+          <p class="decode-catalog-filters-heading">Фильтры</p>
+          <% filter_groups.each do |group| %>
+            <details class="decode-catalog-filter">
+              <summary>
+                <span><%= group[:label] %></span>
+                <%= image_tag "catalog/plus.svg", alt: "", class: "decode-catalog-plus" %>
+              </summary>
+              <% if group[:options].any? %>
+                <div class="decode-catalog-options">
+                  <% group[:options].each do |option| %>
+                    <button type="button" class="decode-catalog-option" data-filter="<%= group[:key] %>" data-value="<%= option %>"><%= option %></button>
+                  <% end %>
+                </div>
+              <% end %>
+            </details>
+          <% end %>
+        </div>
+      </div>
+    </aside>
+
+    <div class="decode-catalog-grid">
+      <% @albums.each do |album| %>
+        <% card_data = { title: album.title.to_s.downcase, artist: album.artist.to_s.downcase } %>
+        <% filter_groups.each { |group| card_data[group[:key]] = album.catalog_values(group[:source]).map(&:downcase).join("|") } %>
+        <%= tag.article class: "decode-catalog-card", data: card_data do %>
+          <%= link_to album_path(album), class: "decode-catalog-cover-link" do %>
+            <% if album.cover.present? %>
+              <%= image_tag album.cover.url, alt: album.title, class: "decode-catalog-cover" %>
+            <% else %>
+              <img src="/placeholder.jpg" alt="<%= album.title %>" class="decode-catalog-cover">
+            <% end %>
+          <% end %>
+          <p class="decode-catalog-artist"><%= album.artist %></p>
+          <h2 class="decode-catalog-name"><%= link_to album.title, album_path(album) %></h2>
+          <ul class="decode-catalog-meta">
+            <% if album.year.present? %><li><%= album.year %></li><% end %>
+            <% if album.genre.present? %><li><%= album.genre.split(%r{\s*/\s*}).first %></li><% end %>
+            <% if album.mood.present? %><li><%= album.mood.split(%r{\s*/\s*}).first %></li><% end %>
+          </ul>
+        <% end %>
+      <% end %>
+    </div>
+  </div>
+  <p class="decode-catalog-empty" data-catalog-empty hidden>Ничего не найдено</p>
+</section>
+
+<script>
+  (function () {
+    var root = document.querySelector(".decode-catalog");
+    if (!root) return;
+    var query = root.querySelector("[data-catalog-query]");
+    var cards = Array.prototype.slice.call(root.querySelectorAll(".decode-catalog-card"));
+    var count = root.querySelector("[data-catalog-count]");
+    var empty = root.querySelector("[data-catalog-empty]");
+
+    function word(n) {
+      var mod10 = n % 10;
+      var mod100 = n % 100;
+      if (mod10 === 1 && mod100 !== 11) return "альбом";
+      if (mod10 >= 2 && mod10 <= 4 && (mod100 < 12 || mod100 > 14)) return "альбома";
+      return "альбомов";
+    }
+
+    function apply() {
+      var text = query.value.trim().toLowerCase();
+      var groups = {};
+      root.querySelectorAll(".decode-catalog-option.is-active").forEach(function (button) {
+        var key = button.getAttribute("data-filter");
+        groups[key] = groups[key] || [];
+        groups[key].push(button.getAttribute("data-value").toLowerCase());
+      });
+      var visible = 0;
+      cards.forEach(function (card) {
+        var haystack = card.getAttribute("data-title") + " " + card.getAttribute("data-artist");
+        var match = !text || haystack.indexOf(text) !== -1;
+        Object.keys(groups).forEach(function (key) {
+          var tokens = (card.getAttribute("data-" + key) || "").split("|");
+          if (!groups[key].some(function (item) { return tokens.indexOf(item) !== -1; })) match = false;
+        });
+        card.hidden = !match;
+        if (match) visible += 1;
+      });
+      count.textContent = visible + " " + word(visible);
+      empty.hidden = visible !== 0;
+    }
+
+    var filters = root.querySelector(".decode-catalog-filters");
+    var filtersToggle = root.querySelector(".decode-catalog-filters-summary");
+    if (filtersToggle) {
+      filtersToggle.addEventListener("click", function () {
+        var open = filters.classList.toggle("is-open");
+        filtersToggle.setAttribute("aria-expanded", open ? "true" : "false");
+      });
+    }
+
+    query.addEventListener("input", apply);
+    root.querySelectorAll(".decode-catalog-option").forEach(function (button) {
+      button.addEventListener("click", function () {
+        button.classList.toggle("is-active");
+        apply();
+      });
+    });
+  })();
+</script>

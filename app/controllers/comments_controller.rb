@@ -1,21 +1,24 @@
 class CommentsController < ApplicationController
+  before_action :authenticate_user!
   before_action :set_album
 
-def create
-  @comment = @album.comments.build(comment_params)
-  @comment.user = current_user if user_signed_in?
+  def create
+    @comment = @album.comments.build(comment_params)
+    @comment.user = current_user
+    authorize! :create, @comment
 
-  if @comment.save
-    redirect_to album_path(@album), notice: "Комментарий успешно добавлен."
-  else
-    redirect_to album_path(@album), alert: "Не удалось добавить комментарий."
+    if @comment.save
+      redirect_to album_path(@album, anchor: "discussion"), notice: "Комментарий добавлен."
+    else
+      redirect_to album_path(@album, anchor: "discussion"), alert: "Не удалось добавить комментарий."
+    end
   end
-end
 
   def destroy
     @comment = @album.comments.find(params[:id])
+    authorize! :destroy, @comment
     @comment.destroy
-    redirect_to @album, notice: "Комментарий удален."
+    redirect_to album_path(@album, anchor: "discussion"), notice: "Комментарий удалён."
   end
 
   private

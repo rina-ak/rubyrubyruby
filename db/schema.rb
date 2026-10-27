@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_10_07_082456) do
+ActiveRecord::Schema[8.1].define(version: 2026_10_28_010000) do
   create_table "album_proposals", force: :cascade do |t|
     t.string "artist"
     t.datetime "created_at", null: false
@@ -24,14 +24,16 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_07_082456) do
     t.string "cover"
     t.string "cover_url"
     t.datetime "created_at", null: false
+    t.string "cultural_context"
     t.text "description"
     t.string "duration"
     t.string "genre"
     t.text "intro_text"
+    t.string "mood"
     t.string "release_type"
-    t.integer "release_year"
     t.string "title"
     t.datetime "updated_at", null: false
+    t.string "visual_language"
     t.integer "year"
   end
 
@@ -45,6 +47,13 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_07_082456) do
     t.index ["user_id"], name: "index_comments_on_user_id"
   end
 
+  create_table "subscribers", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.string "email", null: false
+    t.datetime "updated_at", null: false
+    t.index ["email"], name: "index_subscribers_on_email", unique: true
+  end
+
   create_table "thematic_sections", force: :cascade do |t|
     t.integer "album_id", null: false
     t.text "content"
@@ -56,7 +65,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_07_082456) do
   end
 
   create_table "users", force: :cascade do |t|
-    t.boolean "admin"
+    t.boolean "admin", default: false, null: false
     t.datetime "created_at", null: false
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false

@@ -1,0 +1,50 @@
+<% content_for :title, "Админка" %>
+
+<section class="admin-page">
+  <header class="admin-head">
+    <h1>Админка</h1>
+    <p>Заявки, каталог, комментарии и подписчики.</p>
+  </header>
+  <%= render "admin/nav" %>
+
+  <div class="admin-stats">
+    <%= link_to admin_album_proposals_path, class: "admin-stat" do %>
+      <strong><%= @counts[:proposals] %></strong>
+      <span>заявки</span>
+    <% end %>
+    <%= link_to admin_albums_path, class: "admin-stat" do %>
+      <strong><%= @counts[:albums] %></strong>
+      <span>альбомы</span>
+    <% end %>
+    <%= link_to admin_comments_path, class: "admin-stat" do %>
+      <strong><%= @counts[:comments] %></strong>
+      <span>комментарии</span>
+    <% end %>
+    <%= link_to admin_subscribers_path, class: "admin-stat" do %>
+      <strong><%= @counts[:subscribers] %></strong>
+      <span>подписчики</span>
+    <% end %>
+    <%= link_to admin_users_path, class: "admin-stat" do %>
+      <strong><%= @counts[:users] %></strong>
+      <span>пользователи</span>
+    <% end %>
+  </div>
+
+  <div class="admin-section">
+    <h2>Последние заявки</h2>
+    <% if @proposals.any? %>
+      <div class="admin-list">
+        <% @proposals.each do |proposal| %>
+          <article class="admin-row">
+            <div>
+              <h3><%= link_to proposal.title, admin_album_proposal_path(proposal) %></h3>
+              <p><%= proposal.artist %> · <%= l(proposal.created_at, format: :short) %></p>
+            </div>
+          </article>
+        <% end %>
+      </div>
+    <% else %>
+      <p class="dossier-empty">Заявок пока нет.</p>
+    <% end %>
+  </div>
+</section>

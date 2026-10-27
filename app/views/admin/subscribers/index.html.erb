@@ -1,0 +1,25 @@
+<% content_for :title, "Подписчики" %>
+
+<section class="admin-page">
+  <header class="admin-head">
+    <h1>Подписчики</h1>
+    <p><%= russian_plural(@subscribers.size, "подписчик", "подписчика", "подписчиков") %></p>
+  </header>
+  <%= render "admin/nav" %>
+
+  <% if @subscribers.any? %>
+    <div class="admin-list">
+      <% @subscribers.each do |subscriber| %>
+        <article class="admin-row">
+          <div>
+            <h3><%= subscriber.email %></h3>
+            <p class="admin-muted"><%= l(subscriber.created_at, format: :short) %></p>
+          </div>
+          <%= button_to "Удалить", admin_subscriber_path(subscriber), method: :delete, class: "dossier-linkish" %>
+        </article>
+      <% end %>
+    </div>
+  <% else %>
+    <p class="dossier-empty">Подписчиков пока нет.</p>
+  <% end %>
+</section>

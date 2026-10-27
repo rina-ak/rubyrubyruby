@@ -1,0 +1,44 @@
+<% content_for :title, @collection[:title] %>
+
+<article class="home-page">
+  <p class="home-back"><%= link_to "В каталог", albums_path %></p>
+
+  <header class="collection-hero">
+    <div class="collection-hero-copy">
+      <ul class="home-pills">
+        <% @collection[:tags].each do |tag| %>
+          <li><%= tag %></li>
+        <% end %>
+      </ul>
+      <h1><%= @collection[:title] %></h1>
+      <p><%= @collection[:summary] %></p>
+      <p class="home-count">
+        <%= russian_plural(@collection[:count], "альбом", "альбома", "альбомов") %>
+        <% if @collection[:era].present? %><%= @collection[:era] %><% end %>
+      </p>
+    </div>
+    <%= image_tag @collection[:hero], alt: "", class: "collection-hero-art" %>
+  </header>
+
+  <% if @collection[:curator].present? %>
+    <section class="collection-curator">
+      <h2><%= @collection[:curator_title] %></h2>
+      <p><%= @collection[:curator] %></p>
+    </section>
+  <% end %>
+
+  <section class="home-block">
+    <h2 class="home-section-title"><%= russian_plural(@collection[:count], "альбом", "альбома", "альбомов") %> внутри подборки</h2>
+    <% if @collection[:albums].any? %>
+      <div class="decode-catalog-grid home-album-grid">
+        <% @collection[:albums].each do |album| %>
+          <%= render "albums/spotlight", album: album, note: true %>
+        <% end %>
+      </div>
+    <% else %>
+      <p class="decode-catalog-empty">В этой подборке пока нет альбомов.</p>
+    <% end %>
+  </section>
+
+  <%= render "pages/materials", title: "Материалы по теме" %>
+</article>

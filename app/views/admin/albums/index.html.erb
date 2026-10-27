@@ -1,0 +1,24 @@
+<% content_for :title, "Альбомы" %>
+
+<section class="admin-page">
+  <header class="admin-head">
+    <h1>Альбомы</h1>
+    <p><%= russian_plural(@albums.size, "альбом", "альбома", "альбомов") %></p>
+  </header>
+  <%= render "admin/nav" %>
+
+  <div class="admin-list">
+    <% @albums.each do |album| %>
+      <article class="admin-row">
+        <div>
+          <h3><%= link_to album.title, album_path(album) %></h3>
+          <p><%= album.artist %> · <%= album.year %></p>
+          <p class="admin-muted"><%= pluralize(album.comments.size, "комментарий") %></p>
+        </div>
+        <% if can?(:edit, album) %>
+          <%= link_to "Править", edit_album_path(album), class: "dossier-linkish" %>
+        <% end %>
+      </article>
+    <% end %>
+  </div>
+</section>

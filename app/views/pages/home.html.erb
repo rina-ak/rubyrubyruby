@@ -1,0 +1,46 @@
+<% content_for :title, "decode" %>
+
+<article class="home-page">
+  <header class="home-hero">
+    <h1>Музыка не заканчивается на последнем треке</h1>
+    <p>Decode собирает вокруг альбома всё, что помогает услышать его шире: звучание, визуальный язык, историю создания и культурный контекст.</p>
+  </header>
+
+  <%= image_tag "home/hero.png", alt: "", class: "home-hero-art" %>
+
+  <section class="home-block">
+    <h2 class="home-section-title">Альбомы, которые стоит разобрать</h2>
+    <div class="decode-catalog-grid home-album-grid">
+      <% @albums.each do |album| %>
+        <%= render "albums/spotlight", album: album %>
+      <% end %>
+    </div>
+  </section>
+
+  <section class="home-feature">
+    <h2 class="home-section-title">Последняя подборка</h2>
+    <article class="home-feature-card">
+      <%= image_tag @featured[:image], alt: "", class: "home-feature-art" %>
+      <div class="home-feature-copy">
+        <p class="home-eyebrow"><%= @featured[:eyebrow] %></p>
+        <div>
+          <h3><%= @featured[:title] %></h3>
+          <p><%= @featured[:summary] %></p>
+          <p class="home-count"><%= russian_plural(@featured[:count], "альбом", "альбома", "альбомов") %></p>
+        </div>
+        <%= link_to "Открыть подборку", collection_path(@featured[:slug]), class: "btn-primary home-open" %>
+      </div>
+    </article>
+  </section>
+
+  <%= render "pages/materials" %>
+
+  <section class="home-offer">
+    <div class="home-offer-copy">
+      <h2>Не нашли свой альбом?</h2>
+      <p>Предложите его для будущего разбора</p>
+      <%= link_to "Предложить альбом", new_album_proposal_path, class: "btn-primary home-open home-propose" %>
+    </div>
+    <%= image_tag "home/offer.png", alt: "", class: "home-offer-art" %>
+  </section>
+</article>

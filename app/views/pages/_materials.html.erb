@@ -1,0 +1,44 @@
+<section class="home-materials">
+  <h2 class="home-section-title"><%= local_assigns[:title].presence || "Актуальные материалы" %></h2>
+  <div class="home-material-list">
+    <article class="home-material">
+      <%= image_tag "home/material-visual.png", alt: "", class: "home-material-art" %>
+      <div class="home-material-copy">
+        <div>
+          <h3>Как нулевые сделали музыку визуальным продуктом</h3>
+          <p>Клипы, журналы, MTV и обложки: почему образ артиста стал неотделим от его музыки.</p>
+        </div>
+        <div class="home-material-meta">
+          <p>Культурный контекст · 8 мин</p>
+          <%= link_to "Смотреть >", albums_path, class: "btn-primary home-watch" %>
+        </div>
+      </div>
+    </article>
+    <article class="home-material">
+      <%= image_tag "home/material-player.png", alt: "", class: "home-material-art" %>
+      <div class="home-material-copy">
+        <div>
+          <h3>От CD к MP3-плееру: как менялось слушание альбомов</h3>
+          <p>Разбираемся, как цифровая музыка изменила привычку собирать, хранить и слушать релизы.</p>
+        </div>
+        <div class="home-material-meta">
+          <p>История создания · 6 мин</p>
+          <%= link_to "Смотреть >", albums_path, class: "btn-primary home-watch" %>
+        </div>
+      </div>
+    </article>
+    <article class="home-material">
+      <%= image_tag "home/material-club.png", alt: "", class: "home-material-art" %>
+      <div class="home-material-copy">
+        <div>
+          <h3>Клубная сцена нулевых: звук, мода и ночной город</h3>
+          <p>Как электроника и дэнс-поп стали саундтреком нового городского образа жизни.</p>
+        </div>
+        <div class="home-material-meta">
+          <p>Звучание · 7 мин</p>
+          <%= link_to "Смотреть >", albums_path, class: "btn-primary home-watch" %>
+        </div>
+      </div>
+    </article>
+  </div>
+</section>

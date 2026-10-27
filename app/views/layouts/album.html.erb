@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Sans+Extra+Condensed:wght@600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <title><%= content_for?(:title) ? yield(:title) : "decode" %></title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+    <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
+    <%= javascript_importmap_tags %>
+  </head>
+  <body class="dossier<%= " is-auth" if devise_controller? %>">
+    <header class="dossier-bar">
+      <div class="dossier-shell dossier-bar-row">
+        <%= link_to root_path, class: "dossier-logo", aria: { label: "decode" } do %>
+          <%= image_tag "teaser/logo.svg", alt: "decode", class: "dossier-logo-img" %>
+        <% end %>
+        <button type="button" class="dossier-burger" aria-label="Меню" aria-expanded="false" aria-controls="dossier-menu">
+          <%= image_tag "album/burger.svg", alt: "", class: "dossier-burger-icon" %>
+        </button>
+        <div class="dossier-menu" id="dossier-menu">
+        <nav class="dossier-nav" aria-label="Разделы">
+          <%= link_to "Каталог", albums_path %>
+          <%= link_to "Подборки", collections_path %>
+          <%= link_to "О проекте", about_path %>
+        </nav>
+        <div class="dossier-tools">
+          <button type="button" class="dossier-linkish" data-search-open>Поиск</button>
+          <% if user_signed_in? %>
+            <% if current_user.admin? %>
+              <%= link_to "Админка", admin_root_path %>
+            <% end %>
+            <%= button_to "Выйти", destroy_user_session_path, method: :delete, class: "dossier-linkish" %>
+          <% else %>
+            <%= link_to "Войти", new_user_session_path %>
+          <% end %>
+          <%= link_to "Предложить альбом", new_album_proposal_path, class: "dossier-propose" %>
+        </div>
+        </div>
+      </div>
+    </header>
+
+    <main class="dossier-shell dossier-page">
+      <% if notice.present? %>
+        <p class="dossier-flash" role="status"><%= notice %></p>
+      <% end %>
+      <% if alert.present? %>
+        <p class="dossier-flash dossier-flash-alert" role="alert"><%= alert %></p>
+      <% end %>
+      <%= yield %>
+    </main>
+
+    <% unless devise_controller? %>
+    <footer class="dossier-footer">
+      <div class="dossier-shell">
+        <div class="dossier-footer-rule"></div>
+        <div class="dossier-footer-grid">
+          <div class="dossier-footer-brand">
+            <%= link_to root_path, class: "dossier-logo" do %>
+              <%= image_tag "teaser/logo.svg", alt: "decode", class: "dossier-logo-img" %>
+            <% end %>
+            <p>Музыкальное медиа об альбомах, их истории, визуальном языке и культурном контексте</p>
+          </div>
+          <nav class="dossier-footer-col" aria-label="Навигация">
+            <%= link_to "Каталог", albums_path %>
+            <%= link_to "Подборки", collections_path %>
+            <a href="#themes">Темы для исследования</a>
+            <%= link_to "Предложить альбом", new_album_proposal_path %>
+            <%= link_to "О проекте", about_path %>
+          </nav>
+          <div class="dossier-footer-col">
+            <span>Контакты</span>
+            <a href="https://vk.com" target="_blank" rel="noopener">VK</a>
+            <a href="https://t.me" target="_blank" rel="noopener">Telegram</a>
+            <a href="https://dzen.ru" target="_blank" rel="noopener">Дзен</a>
+            <a href="mailto:decode@decode.media">decode@decode.media</a>
+          </div>
+        </div>
+        <div class="dossier-footer-rule"></div>
+        <div class="dossier-footer-legal">
+          <%= link_to "Политика конфиденциальности", privacy_path %>
+          <span>Правила использования материалов</span>
+        </div>
+      </div>
+    </footer>
+    <% end %>
+
+    <%= render "albums/search_modal" %>
+
+    <script>
+      var burger = document.querySelector(".dossier-burger");
+      var bar = document.querySelector(".dossier-bar");
+      if (burger && bar) {
+        burger.addEventListener("click", function () {
+          var open = bar.classList.toggle("is-open");
+          burger.setAttribute("aria-expanded", open ? "true" : "false");
+        });
+      }
+      document.querySelectorAll("[data-share]").forEach(function (button) {
+        button.addEventListener("click", function () {
+          var url = window.location.href;
+          var title = document.title;
+          if (navigator.share) {
+            navigator.share({ title: title, url: url }).catch(function () {});
+            return;
+          }
+          if (navigator.clipboard) {
+            navigator.clipboard.writeText(url).then(function () {
+              button.textContent = "Ссылка скопирована";
+            });
+          }
+        });
+      });
+      (function () {
+        var modal = document.getElementById("search-modal");
+        if (!modal) return;
+        var input = modal.querySelector("[data-search-input]");
+
+        function openModal() {
+          modal.hidden = false;
+          document.body.classList.add("search-open");
+          if (input) input.focus();
+        }
+
+        function closeModal() {
+          modal.hidden = true;
+          document.body.classList.remove("search-open");
+        }
+
+        document.querySelectorAll("[data-search-open]").forEach(function (button) {
+          button.addEventListener("click", openModal);
+        });
+        modal.querySelectorAll("[data-search-close]").forEach(function (button) {
+          button.addEventListener("click", closeModal);
+        });
+        document.addEventListener("keydown", function (event) {
+          if (event.key === "Escape") closeModal();
+        });
+      })();
+    </script>
+  </body>
+</html>

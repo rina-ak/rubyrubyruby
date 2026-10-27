@@ -1,0 +1,29 @@
+<% content_for :title, "Заявки" %>
+
+<section class="admin-page">
+  <header class="admin-head">
+    <h1>Заявки</h1>
+    <p><%= russian_plural(@proposals.size, "заявка", "заявки", "заявок") %></p>
+  </header>
+  <%= render "admin/nav" %>
+
+  <% if @proposals.any? %>
+    <div class="admin-list">
+      <% @proposals.each do |proposal| %>
+        <article class="admin-row">
+          <div>
+            <h3><%= link_to proposal.title, admin_album_proposal_path(proposal) %></h3>
+            <p><%= proposal.artist %></p>
+            <% if proposal.notes.present? %>
+              <p class="admin-muted"><%= truncate(proposal.notes, length: 140) %></p>
+            <% end %>
+            <p class="admin-muted"><%= l(proposal.created_at, format: :short) %></p>
+          </div>
+          <%= button_to "Удалить", admin_album_proposal_path(proposal), method: :delete, class: "dossier-linkish", form: { data: { turbo_confirm: "Удалить заявку?" } } %>
+        </article>
+      <% end %>
+    </div>
+  <% else %>
+    <p class="dossier-empty">Заявок пока нет.</p>
+  <% end %>
+</section>

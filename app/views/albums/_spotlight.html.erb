@@ -1,0 +1,26 @@
+<% card_data = {
+     title: album.title.to_s.downcase,
+     artist: album.artist.to_s.downcase,
+     genre: album.catalog_values(:genre).map(&:downcase).join("|"),
+     mood: album.catalog_values(:mood).map(&:downcase).join("|")
+   } %>
+<%= tag.article class: "decode-catalog-card", data: card_data do %>
+  <%= link_to album_path(album), class: "decode-catalog-cover-link" do %>
+    <% if album.cover.present? %>
+      <%= image_tag album.cover.url, alt: album.title, class: "decode-catalog-cover" %>
+    <% else %>
+      <img src="/placeholder.jpg" alt="<%= album.title %>" class: "decode-catalog-cover">
+    <% end %>
+  <% end %>
+  <p class="decode-catalog-artist"><%= album.artist %></p>
+  <h2 class="decode-catalog-name"><%= link_to album.title, album_path(album) %></h2>
+  <ul class="decode-catalog-meta">
+    <% if album.year.present? %><li><%= album.year %></li><% end %>
+    <% if album.genre.present? %><li><%= album.genre.split(%r{\s*/\s*}).first %></li><% end %>
+    <% if album.mood.present? %><li><%= album.mood.split(%r{\s*/\s*}).first %></li><% end %>
+  </ul>
+  <% blurb = album.intro_text.presence || album.description.presence %>
+  <% if local_assigns[:note] && blurb.present? %>
+    <p class="home-card-note"><%= truncate(blurb, length: 120) %></p>
+  <% end %>
+<% end %>

@@ -34,19 +34,13 @@ class CoverUploader < CarrierWave::Uploader::Base
   #   process resize_to_fit: [50, 50]
   # end
 
-  # Add an allowlist of extensions which are allowed to be uploaded.
-  # For images you might use something like this:
-  # def extension_allowlist
-  #   %w(jpg jpeg gif png)
-  # end
+  def extension_allowlist
+    %w[jpg jpeg gif png webp]
+  end
 
-  # Add a content_type_allowlist to restrict uploads by MIME type.
-  # Without it, a user could upload a harmful file
-  # with a safe extension (content-type spoofing).
-  # For the previous extension_allowlist you might use something like this:
-  # def content_type_allowlist
-  #   /image\//
-  # end
+  def content_type_allowlist
+    %r{image/}
+  end
 
   # Override the filename of the uploaded files:
   # Avoid using model.id or version_name here, see uploader/store.rb for details.

@@ -1,37 +1,43 @@
 class AlbumsController < ApplicationController
-  before_action :set_album, only: %i[ show edit update destroy ]
-  before_action :authenticate_user!, except: %i[ index show ]
+  layout "album"
+  before_action :authenticate_user!, except: %i[ index show search ]
+  load_and_authorize_resource
 
   def index
     @albums = Album.all
   end
 
+  def search
+    @query = params[:q].to_s.strip
+    @albums = Album.search(@query).order(:title)
+  end
+
   def show
+    render @album.dossier_template
   end
 
   def new
-    @album = Album.new
   end
 
   def edit
   end
 
-def create
-  @album = Album.new(album_params)
-  if @album.save
-    redirect_to album_path(@album), notice: "Альбом успешно создан."
-  else
-    render :new, status: :unprocessable_entity
+  def create
+    @album.assign_attributes(album_params)
+    if @album.save
+      redirect_to album_path(@album), notice: "Альбом успешно создан."
+    else
+      render :new, status: :unprocessable_entity
+    end
   end
-end
 
-def update
-  if @album.update(album_params)
-    redirect_to album_path(@album), notice: "Альбом успешно обновлен."
-  else
-    render :edit, status: :unprocessable_entity
+  def update
+    if @album.update(album_params)
+      redirect_to album_path(@album), notice: "Альбом успешно обновлен."
+    else
+      render :edit, status: :unprocessable_entity
+    end
   end
-end
 
   def destroy
     @album.destroy
@@ -40,11 +46,7 @@ end
 
   private
 
-  def set_album
-    @album = Album.find(params[:id])
+  def album_params
+    params.require(:album).permit(:title, :artist, :genre, :year, :description, :intro_text, :duration, :release_type, :cover, :cover_url, :mood, :visual_language, :cultural_context)
   end
-
-def album_params
-  params.require(:album).permit(:title, :artist, :genre, :year, :description, :duration, :release_type, :cover)
-end
 end

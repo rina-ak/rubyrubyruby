@@ -1,0 +1,174 @@
+<% content_for :title, "folklore" %>
+<% theme_cards = [
+     { title: "История создания", body: "Альбом был записан во время пандемии и вышел менее чем через сутки после анонса. Дистанционная работа стала не ограничением, а частью его метода: Десснер отправлял Swift инструментальные наброски, а она превращала их ....", meta: "4 материала" },
+     { title: "Звучание", body: "Основа folklore — акустическая гитара, фортепиано, камерные аранжировки, мягкая электроника и сдержанный вокал. Это не полный отказ от поп-музыки, а смена масштаба: вместо припевов-аттракционов — детали, паузы...", meta: "3 материала" },
+     { title: "Персонажи и сюжеты", body: "В альбоме появляются герои с разными точками зрения. Песни «cardigan», «august» и «betty» образуют историю подросткового любовного треугольника; другие композиции работают как отдельные короткие рассказы.", meta: "4 материала" },
+     { title: "Визуальный язык", body: "Чёрно-белая фотография в лесу, приглушённая палитра, простая одежда и отсутствие привычной поп-роскоши создают образ вымышленного мира вне конкретного времени. Визуальный язык продолжает интонацию альбома..", meta: "4 материала" }
+   ] %>
+
+<p class="dossier-back">
+  <%= link_to "В каталог", albums_path %>
+</p>
+
+<section class="dossier-hero">
+  <div class="dossier-cover">
+    <%= image_tag "album/folklore-cover.png", alt: "folklore", class: "album-hero-cover" %>
+  </div>
+
+  <div class="dossier-hero-copy">
+    <p class="dossier-badge">Полный разбор</p>
+    <h1 class="dossier-title">folklore</h1>
+    <p class="dossier-artist">Taylor Swift</p>
+
+    <ul class="dossier-meta">
+      <li>2020</li>
+      <li>США</li>
+      <li>инди-фолк</li>
+      <li>63 мин.</li>
+    </ul>
+
+    <ul class="dossier-pills">
+      <li>Сторителлинг</li>
+      <li>Изоляция</li>
+      <li>Ностальгия</li>
+      <li>Камерный поп</li>
+    </ul>
+
+    <p class="dossier-lead">folklore стал поворотом от поп-образа к тихому альбому историй. Его мир строится на вымышленных героях, изоляции и ощущении памяти.</p>
+
+    <% if user_signed_in? && current_user.admin? %>
+      <div class="dossier-actions">
+        <%= link_to "Редактировать альбом", edit_album_path(@album), class: "dossier-propose" %>
+      </div>
+    <% end %>
+
+    <div class="dossier-actions">
+      <%= link_to "Слушать альбом", "https://music.youtube.com/search?q=#{u("Taylor Swift folklore")}", class: "dossier-btn dossier-btn-fill", target: "_blank", rel: "noopener" %>
+      <button type="button" class="dossier-btn dossier-btn-line" data-share>Поделиться</button>
+    </div>
+
+    <div class="dossier-facts">
+      <div>
+        <p class="dossier-fact-label">Лейбл</p>
+        <p class="dossier-fact-value">Republic Records</p>
+      </div>
+      <div>
+        <p class="dossier-fact-label">Продюссеры</p>
+        <p class="dossier-fact-value">Taylor Swift, Jack Antonoff, Aaron Desner</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="dossier-body">
+  <nav class="dossier-toc" aria-label="Внутри альбома">
+    <p class="dossier-toc-title">Внутри альбома</p>
+    <a href="#about">Об альбоме</a>
+    <a href="#themes">Темы разбора</a>
+    <a href="#materials">Материалы</a>
+    <a href="#explore">Продолжить исследование</a>
+    <a href="#sources">Источники</a>
+    <a href="#discussion">Обсуждение</a>
+  </nav>
+
+  <div class="dossier-article">
+    <section id="about" class="dossier-block">
+      <h2>Об альбоме</h2>
+      <div class="dossier-prose">
+        <p>folklore — восьмой студийный альбом Taylor Swift, выпущенный 24 июля 2020 года без предварительной кампании и синглов. Запись появилась в период изоляции: Swift работала с продюсерами и музыкантами дистанционно, в том числе с Аароном Десснером из The National, Джеком Антоноффом и Джастином Верноном из Bon Iver.</p>
+        <p>Вместо яркого поп-звучания предыдущих релизов здесь — приглушённые гитары, фортепиано, струнные и ощущение пространства. Альбом устроен как набор историй: часть песен говорит от первого лица, а часть разворачивает вымышленные сюжеты и персонажей. Поэтому folklore можно слушать не только как личный дневник, но и как сборник связанных рассказов.</p>
+      </div>
+    </section>
+
+    <section id="themes" class="dossier-block">
+      <h2>Темы разбора</h2>
+      <p class="dossier-kicker">Выберите тему, чтобы перейти к материалам</p>
+      <div class="dossier-themes">
+        <% theme_cards.each do |card| %>
+          <article class="dossier-theme">
+            <h3><%= card[:title] %></h3>
+            <div class="dossier-theme-body"><%= simple_format(card[:body].to_s) %></div>
+            <div class="dossier-theme-foot">
+              <span><%= card[:meta] %></span>
+              <a href="#materials">Смотреть &gt;</a>
+            </div>
+          </article>
+        <% end %>
+      </div>
+    </section>
+
+    <section id="materials" class="dossier-block">
+      <h2>Материалы по альбому</h2>
+      <article class="dossier-material">
+        <%= image_tag "album/material-distance.png", alt: "", class: "dossier-material-photo" %>
+        <div>
+          <h3>Как folklore записывали на расстоянии</h3>
+          <p>Разбираем, как обмен демо между Taylor Swift и Аароном Десснером повлиял на камерный звук альбома.</p>
+          <p class="dossier-material-meta">история создания · 6 мин</p>
+          <a class="dossier-btn dossier-btn-fill dossier-btn-sm" href="#discussion">Смотреть &gt;</a>
+        </div>
+      </article>
+      <article class="dossier-material">
+        <%= image_tag "album/material-triangle.png", alt: "", class: "dossier-material-photo" %>
+        <div>
+          <h3>Три взгляда на одну историю: cardigan, august и betty</h3>
+          <p>Карта персонажей и точек зрения внутри самого известного сюжетного блока альбома.</p>
+          <p class="dossier-material-meta">тексты · сторителлинг · 7 мин</p>
+          <a class="dossier-btn dossier-btn-fill dossier-btn-sm" href="#discussion">Смотреть &gt;</a>
+        </div>
+      </article>
+      <article class="dossier-material">
+        <%= image_tag "album/material-longpond.png", alt: "", class: "dossier-material-photo" %>
+        <div>
+          <h3>Long Pond Studio Sessions</h3>
+          <p>Как студийная сессия и фильм Disney+ сделали процесс записи альбома видимым для слушателя.</p>
+          <p class="dossier-material-meta">бэкстейдж · видео · 5 мин</p>
+          <a class="dossier-btn dossier-btn-fill dossier-btn-sm" href="#discussion">Смотреть &gt;</a>
+        </div>
+      </article>
+    </section>
+
+    <section id="explore" class="dossier-block">
+      <h2>Продолжить исследование</h2>
+      <div class="dossier-recs">
+        <article class="dossier-rec">
+          <%= image_tag "album/evermore.png", alt: "evermore", class: "dossier-rec-cover" %>
+          <p class="dossier-rec-artist">Taylor Swift</p>
+          <h3>evermore</h3>
+          <ul class="dossier-meta">
+            <li>2020</li>
+            <li>инди-фолк</li>
+            <li>память</li>
+          </ul>
+          <p class="dossier-rec-note">Следующий альбом Swift, продолжающий работу с вымышленными сюжетами, фолк-интонацией и Аароном Десснером.</p>
+        </article>
+        <article class="dossier-rec">
+          <%= image_tag "album/punisher.png", alt: "Punisher", class: "dossier-rec-cover" %>
+          <p class="dossier-rec-artist">Phoebe Bridgers</p>
+          <h3>Punisher</h3>
+          <ul class="dossier-meta">
+            <li>2020</li>
+            <li>инди-фолк</li>
+            <li>память</li>
+          </ul>
+          <p class="dossier-rec-note">Общая интонация: тихий вокал, личные истории, наблюдение за повседневностью и работа с ощущением дистанции.</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="sources" class="dossier-block">
+      <h2>Источники</h2>
+      <div class="dossier-prose">
+        <p>Taylor Swift — анонс и данные о релизе folklore.</p>
+        <p>
+          Grammy.com — материалы о выпуске, участниках записи и дистанционной работе над альбомом.
+          <a class="dossier-source-link" href="https://www.grammy.com/news/taylor-swift-announces-new-surprise-album-folklore-featuring-bon-iver-nationals-aaron" target="_blank" rel="noopener">grammy.com</a>
+        </p>
+        <p>folklore: the long pond studio sessions, Disney+, 2020.</p>
+        <p>Буклет и кредиты альбома folklore.</p>
+      </div>
+    </section>
+
+    <%= render "albums/discussion", album: @album %>
+  </div>
+</div>

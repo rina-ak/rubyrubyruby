@@ -1,38 +1,38 @@
-<main class="container" style="max-width: 600px;">
-  <div class="breadcrumbs">
-    <%= link_to "главная", root_path %> / предложить релиз
+<% content_for :title, "Предложить альбом" %>
+
+<article class="auth-screen">
+  <div class="auth-container proposal-solo">
+    <div class="auth-form-card">
+      <header class="auth-intro">
+        <h1>Предложить альбом</h1>
+        <p>Не нашли нужный релиз? Напишите нам, и редакция подготовит разбор: звучание, визуальный язык и контекст.</p>
+      </header>
+
+      <%= form_with(model: @proposal, class: "auth-form") do |form| %>
+        <% if @proposal.errors.any? %>
+          <div class="form-errors" role="alert">Заполните исполнителя и название альбома.</div>
+        <% end %>
+
+        <div class="auth-fields">
+          <div class="auth-input-group">
+            <%= form.label :artist, "Исполнитель", class: "field-label-strong" %>
+            <%= form.text_field :artist, placeholder: "например, Radiohead или aespa", class: "text-input" %>
+          </div>
+          <div class="auth-input-group">
+            <%= form.label :title, "Название альбома", class: "field-label-strong" %>
+            <%= form.text_field :title, placeholder: "например, In Rainbows", class: "text-input" %>
+          </div>
+          <div class="auth-input-group">
+            <%= form.label :notes, "Почему этот альбом важен?", class: "field-label-strong" %>
+            <%= form.text_area :notes, rows: 4, placeholder: "Визуал, клипы, скрытые смыслы", class: "text-input" %>
+          </div>
+        </div>
+
+        <div class="auth-actions">
+          <%= form.submit "Отправить заявку", class: "btn-primary" %>
+          <p class="auth-switch"><%= link_to "В каталог", albums_path %></p>
+        </div>
+      <% end %>
+    </div>
   </div>
-
-  <h1 style="margin-bottom: 8px;">Предложить альбом</h1>
-  <p style="color: #666; margin-bottom: 30px;">
-    Не нашел нужный релиз в медиа-сервисе? Напиши нам, и редакция подготовит визуальный и контекстный разбор.
-  </p>
-
-  <%= form_with(model: @proposal, local: true, class: "proposal-form") do |form| %>
-    <% if @proposal.errors.any? %>
-      <div style="color: red; margin-bottom: 16px;">
-        Заполни обязательные поля (исполнитель и название альбома).
-      </div>
-    <% end %>
-
-    <div style="margin-bottom: 20px;">
-      <%= form.label :artist, "Исполнитель / Группа", style: "display: block; font-weight: 500; margin-bottom: 6px;" %>
-      <%= form.text_field :artist, placeholder: "например, Radiohead или aespa", style: "width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; font-size: 15px;" %>
-    </div>
-
-    <div style="margin-bottom: 20px;">
-      <%= form.label :title, "Название альбома", style: "display: block; font-weight: 500; margin-bottom: 6px;" %>
-      <%= form.text_field :title, placeholder: "например, In Rainbows", style: "width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; font-size: 15px;" %>
-    </div>
-
-    <div style="margin-bottom: 24px;">
-      <%= form.label :notes, "Почему этот альбом важен? (необязательно)", style: "display: block; font-weight: 500; margin-bottom: 6px;" %>
-      <%= form.text_area :notes, rows: 4, placeholder: "Интересный визуал, клипы, скрытые смыслы...", style: "width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; font-size: 15px;" %>
-    </div>
-
-    <div>
-      <%= form.submit "Отправить заявку", class: "btn-primary", style: "border: none; cursor: pointer; padding: 10px 20px;" %>
-      <%= link_to "Отмена", root_path, style: "margin-left: 16px; color: #666; text-decoration: none;" %>
-    </div>
-  <% end %>
-</main>
+</article>

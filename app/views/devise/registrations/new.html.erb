@@ -1,0 +1,50 @@
+<% content_for :title, "Регистрация" %>
+
+<article class="auth-screen">
+  <div class="auth-container">
+    <div class="auth-form-card">
+      <header class="auth-intro">
+        <h1>Собирать свою карту музыки</h1>
+        <p>Создайте аккаунт, чтобы сохранять интересные альбомы и получать новости о новых разборах.</p>
+      </header>
+
+      <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { class: "auth-form" }) do |f| %>
+        <%= render "devise/shared/error_messages", resource: resource %>
+
+        <div class="auth-fields">
+          <div class="auth-input-group">
+            <%= f.label :email, "Электронная почта", class: "field-label-strong" %>
+            <%= f.email_field :email, autofocus: true, autocomplete: "email", placeholder: "name@mail.ru", class: "text-input" %>
+          </div>
+
+          <div class="auth-input-group">
+            <%= f.label :password, "Пароль", class: "field-label-strong" %>
+            <%= f.password_field :password, autocomplete: "new-password", placeholder: "Не менее 8 символов", class: "text-input" %>
+          </div>
+
+          <div class="auth-input-group">
+            <%= f.label :password_confirmation, "Подтверждение пароля", class: "field-label-strong" %>
+            <%= f.password_field :password_confirmation, autocomplete: "new-password", placeholder: "Повторите пароль", class: "text-input" %>
+          </div>
+        </div>
+
+        <label class="auth-check">
+          <input type="checkbox" name="terms" value="1" required class="auth-check-input">
+          <span>Я даю согласие на обработку персональных данных и принимаю <%= link_to "Политику конфиденциальности", privacy_path %></span>
+        </label>
+
+        <div class="auth-actions">
+          <%= f.submit "Создать аккаунт", class: "btn-primary" %>
+          <p class="auth-switch">Уже есть аккаунт? <%= link_to "Войти", new_user_session_path %></p>
+        </div>
+      <% end %>
+    </div>
+
+    <%= image_tag "auth/register.png", alt: "", class: "auth-side-art auth-side-art-register" %>
+  </div>
+</article>
+
+<footer class="auth-foot">
+  <p>Decode – музыкальное медиа об альбомах</p>
+  <p>© Decode, 2026</p>
+</footer>

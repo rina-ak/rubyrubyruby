@@ -1,25 +1,95 @@
+<% content_for :title, "О проекте" %>
 
-<main class="container" style="max-width: 720px; padding: 40px 20px;">
-  <div class="breadcrumbs">
-    <%= link_to "главная", root_path %> / о проекте
-  </div>
+<article class="about-page">
+  <header class="about-hero">
+    <h1>Музыкальное медиа<br>об альбомах и их контексте</h1>
+    <p>Decode собирает вокруг альбома музыку, визуальные образы, историю создания и культурные связи. Чтобы слушать релиз не только как набор треков, а как цельное высказывание.</p>
+  </header>
 
-  <h1 style="font-size: 36px; margin-bottom: 24px;">decode — контекст за пределами звука</h1>
+  <%= image_tag "about/studio.png", alt: "", class: "about-collage" %>
 
-  <p style="font-size: 18px; line-height: 1.6; color: #333; margin-bottom: 24px;">
-    Музыкальные альбомы давно перестали быть просто набором аудиодорожек. Это комплексные аудиовизуальные высказывания, в которых обложка, клипы, мода эпохи и личные кризисы артиста сплетены в единый нарратив.
-  </p>
+  <section class="about-split">
+    <h2>Альбом — это больше,<br>чем список треков</h2>
+    <div class="about-copy">
+      <p>За альбомом остаётся многое, что не помещается в стриминговый сервис: ранние демо, интервью, оформление, клипы, история записи, фильмы, книги, города и люди, которые повлияли на музыку.</p>
+      <p>Обычно эти материалы существуют отдельно друг от друга. Decode собирает их рядом, чтобы пользователь мог сам выбрать, с чего начать и куда двигаться дальше.</p>
+    </div>
+  </section>
 
-  <p style="font-size: 16px; line-height: 1.6; color: #555; margin-bottom: 32px;">
-    <strong>decode</strong> — это исследовательский медиа-сервис. Мы деконструируем культовые и знаковые релизы разных жанров: от интимного фолка и концептуального рока до кей-попа и тяжелого метала. Мы исследуем визуальный язык, культурные отсылки и закулисный контекст, который обычно ускользает при обычном прослушивании в стримингах.
-  </p>
+  <section class="about-block">
+    <h2 class="about-section-title">Из чего складывается разбор</h2>
+    <div class="about-pillars">
+      <article>
+        <%= image_tag "about/sound.png", alt: "", class: "about-pillar-photo" %>
+        <h3>Звучание</h3>
+        <p>Как устроена музыка: жанры, инструменты, приёмы, влияния и изменения в звучании артиста.</p>
+      </article>
+      <article>
+        <%= image_tag "about/visual.png", alt: "", class: "about-pillar-photo" %>
+        <h3>Визуальный язык</h3>
+        <p>Обложки, клипы, фотографии, костюмы, сценография и образы, через которые альбом существует вне музыки.</p>
+      </article>
+      <article>
+        <%= image_tag "about/history.png", alt: "", class: "about-pillar-photo" %>
+        <h3>История создания</h3>
+        <p>Обстоятельства записи, участники работы, демо-версии, интервью и путь релиза к слушателю.</p>
+      </article>
+      <article>
+        <%= image_tag "about/culture.png", alt: "", class: "about-pillar-photo" %>
+        <h3>Культурный контекст</h3>
+        <p>Эпоха, кино, мода, литература, места, сцены и другие связи, которые помогают увидеть альбом шире.</p>
+      </article>
+    </div>
+  </section>
 
-  <div style="background: #f4f4f5; padding: 24px; border-radius: 8px; margin-bottom: 40px;">
-    <h3 style="margin-top: 0;">Наша миссия</h3>
-    <p style="margin: 0; color: #444; font-size: 15px;">
-      Вернуть культуру вдумчивого погружения в альбомы как законченные арт-объекты эпохи.
-    </p>
-  </div>
+  <section class="about-block">
+    <h2 class="about-section-title">Что можно найти в decode</h2>
+    <div class="about-routes">
+      <article class="about-route">
+        <%= image_tag "about/reviews.png", alt: "", class: "about-route-photo" %>
+        <div class="about-route-copy">
+          <div>
+            <h3>Разборы альбомов</h3>
+            <p>Материалы о конкретных релизах: от истории создания до визуальных и культурных отсылок.</p>
+          </div>
+          <%= link_to "Перейти", albums_path, class: "about-route-link" %>
+        </div>
+      </article>
+      <article class="about-route">
+        <%= image_tag "about/collections.png", alt: "", class: "about-route-photo" %>
+        <div class="about-route-copy">
+          <div>
+            <h3>Подборки</h3>
+            <p>Редакционные маршруты между альбомами, которые связаны общей эпохой, темой, образом или звучанием.</p>
+          </div>
+          <%= link_to "Перейти", collections_path, class: "about-route-link" %>
+        </div>
+      </article>
+      <article class="about-route">
+        <%= image_tag "about/materials.png", alt: "", class: "about-route-photo" %>
+        <div class="about-route-copy">
+          <div>
+            <h3>Материалы и источники</h3>
+            <p>Интервью, архивы, демо, фотографии, клипы, критические тексты и ссылки на первоисточники.</p>
+          </div>
+          <%= link_to "Перейти", albums_path, class: "about-route-link" %>
+        </div>
+      </article>
+    </div>
+  </section>
 
-  <%= link_to "← Перейти в каталог альбомов", root_path, class: "btn-primary" %>
-</main>
+  <section class="about-closing">
+    <div class="about-closing-copy">
+      <div class="about-facts">
+        <h2>Мы отделяем факты<br>от интерпретаций</h2>
+        <p>В Decode фактологическая информация опирается на интервью, архивные материалы, официальные кредиты и проверяемые источники. Редакционные наблюдения и интерпретации не выдаются за единственно возможное прочтение альбома.</p>
+      </div>
+      <div class="about-offer">
+        <h2>Не нашли свой альбом?</h2>
+        <p>Предложите его для будущего разбора</p>
+        <%= link_to "Предложить альбом", new_album_proposal_path, class: "about-offer-link" %>
+      </div>
+    </div>
+    <%= image_tag "about/archive.png", alt: "", class: "about-archive" %>
+  </section>
+</article>

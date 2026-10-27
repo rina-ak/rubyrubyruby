@@ -1,52 +1,45 @@
-<div class="catalog-header">
-  <h1>Тематические подборки</h1>
-</div>
+<% content_for :title, "Подборки" %>
 
-<p style="color: #666; margin-bottom: 2rem; font-size: 15px; max-width: 680px;">
-  Кураторские срезы музыкальных сцен, визуальных кодов и звуковых экспериментов.
-</p>
+<article class="home-page">
+  <header class="decode-catalog-head home-collections-head">
+    <h1 class="decode-catalog-title">Подборки</h1>
+    <p class="decode-catalog-count">Альбомы, связанные одним наблюдением</p>
+  </header>
 
-<!-- Блок жанровых срезов -->
-<div class="thematic-grid" style="margin-bottom: 3rem;">
-  <% @genres.each do |genre| %>
-    <% genre_albums = Album.where(genre: genre) %>
-    <% is_active = (params[:genre] == genre) %>
-
-    <%= link_to collections_path(genre: is_active ? nil : genre), style: "text-decoration: none; color: inherit; display: block;" do %>
-      <div class="thematic-card" style="cursor: pointer; transition: border-color 0.15s ease, background-color 0.15s ease; <%= 'border: 2px solid #111; background: #fafafa;' if is_active %>">
-        <div class="tag-label" style="font-size: 12px; text-transform: uppercase; color: <%= is_active ? '#111' : '#888' %>; margin-bottom: 6px; font-weight: <%= is_active ? '600' : 'normal' %>;">
-          <%= is_active ? "✓ Выбрано" : "Жанровый фокус" %>
-        </div>
-        <h4><%= genre %></h4>
-        <p style="margin-top: 8px; color: #555; font-size: 14px;">
-          <%= genre_albums.count %> <%= genre_albums.count == 1 ? "релиз" : "релизов" %> в коллекции
-        </p>
+  <article class="home-feature-card">
+    <%= image_tag @featured[:image], alt: "", class: "home-feature-art" %>
+    <div class="home-feature-copy">
+      <p class="home-eyebrow"><%= @featured[:eyebrow] %></p>
+      <div>
+        <h2 class="home-feature-title"><%= @featured[:title] %></h2>
+        <p><%= @featured[:summary] %></p>
+        <p class="home-count"><%= russian_plural(@featured[:count], "альбом", "альбома", "альбомов") %></p>
       </div>
-    <% end %>
-  <% end %>
-</div>
+      <%= link_to "Открыть подборку", collection_path(@featured[:slug]), class: "btn-primary home-open" %>
+    </div>
+  </article>
 
-<!-- Блок всех альбомов подборки -->
-<div class="catalog-header" style="margin-top: 2rem; display: flex; justify-content: space-between; align-items: baseline;">
-  <h2 style="font-size: 22px;">
-    <% if params[:genre].present? %>
-      Релизы в жанре «<%= params[:genre] %>» (<%= @albums.count %>)
-    <% else %>
-      Все релизы подборок
-    <% end %>
-  </h2>
+  <section class="home-block">
+    <h2 class="home-section-title">Все подборки</h2>
+    <div class="home-collection-grid">
+      <% @collections.each do |item| %>
+        <%= link_to collection_path(item[:slug]), class: "home-collection" do %>
+          <%= image_tag item[:image], alt: "", class: "home-collection-art" %>
+          <p class="home-eyebrow"><%= item[:eyebrow] %></p>
+          <h3><%= item[:title] %></h3>
+          <p><%= item[:summary] %></p>
+          <p class="home-count"><%= russian_plural(item[:count], "альбом", "альбома", "альбомов") %></p>
+        <% end %>
+      <% end %>
+    </div>
+  </section>
 
-  <% if params[:genre].present? %>
-    <%= link_to "Показать все альбомы ✕", collections_path, style: "font-size: 14px; color: #666; text-decoration: underline;" %>
-  <% end %>
-</div>
-
-<div class="albums-grid">
-  <% if @albums.any? %>
-    <% @albums.each do |album| %>
-      <%= render album %>
-    <% end %>
-  <% else %>
-    <p style="color: #888; grid-column: 1 / -1; padding: 2rem 0;">В этой категории пока нет добавленных альбомов.</p>
-  <% end %>
-</div>
+  <section class="home-block">
+    <h2 class="home-section-title">Внутри подборок</h2>
+    <div class="decode-catalog-grid home-album-grid">
+      <% @inside.each do |album| %>
+        <%= render "albums/spotlight", album: album %>
+      <% end %>
+    </div>
+  </section>
+</article>

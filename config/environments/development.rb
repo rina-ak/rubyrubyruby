@@ -15,6 +15,9 @@ Rails.application.configure do
   # Enable server timing.
   config.server_timing = true
 
+  # Serve files from public/, including CarrierWave uploads.
+  config.public_file_server.enabled = true
+
   # Enable/disable Action Controller caching. By default Action Controller caching is disabled.
   # Run rails dev:cache to toggle Action Controller caching.
   if Rails.root.join("tmp/caching-dev.txt").exist?
@@ -36,6 +39,10 @@ Rails.application.configure do
 
   # Make template changes take effect immediately.
   config.action_mailer.perform_caching = false
+
+  # Preview sent mail in the browser via letter_opener.
+  config.action_mailer.delivery_method = :letter_opener
+  config.action_mailer.perform_deliveries = true
 
   # Set localhost to be used by links generated in mailer templates.
   config.action_mailer.default_url_options = { host: "localhost", port: 3000 }

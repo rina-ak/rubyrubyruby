@@ -1,0 +1,8 @@
+<nav class="admin-nav" aria-label="Админка">
+  <%= link_to "Сводка", admin_root_path, class: ("is-current" if current_page?(admin_root_path)) %>
+  <%= link_to "Заявки", admin_album_proposals_path, class: ("is-current" if controller_name == "album_proposals") %>
+  <%= link_to "Альбомы", admin_albums_path, class: ("is-current" if controller_name == "albums" && controller_path.start_with?("admin")) %>
+  <%= link_to "Комментарии", admin_comments_path, class: ("is-current" if controller_name == "comments") %>
+  <%= link_to "Подписчики", admin_subscribers_path, class: ("is-current" if controller_name == "subscribers") %>
+  <%= link_to "Пользователи", admin_users_path, class: ("is-current" if controller_name == "users") %>
+</nav>

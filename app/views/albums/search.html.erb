@@ -1,0 +1,25 @@
+<%= turbo_frame_tag "search_results", class: "search-modal-results" do %>
+  <% if @query.blank? %>
+    <p class="search-modal-hint">Введите название, исполнителя, жанр или год</p>
+  <% elsif @albums.any? %>
+    <ul class="search-modal-list">
+      <% @albums.each do |album| %>
+        <li>
+          <%= link_to album_path(album), class: "search-modal-item", data: { turbo_frame: "_top" } do %>
+            <% if album.cover.present? %>
+              <%= image_tag album.cover.url, alt: "", class: "search-modal-cover" %>
+            <% else %>
+              <span class="search-modal-cover search-modal-cover-empty" aria-hidden="true"></span>
+            <% end %>
+            <span>
+              <strong><%= album.title %></strong>
+              <em><%= [album.artist, album.year].compact.join(" · ") %></em>
+            </span>
+          <% end %>
+        </li>
+      <% end %>
+    </ul>
+  <% else %>
+    <p class="search-modal-empty">Ничего не найдено по запросу «<%= @query %>»</p>
+  <% end %>
+<% end %>

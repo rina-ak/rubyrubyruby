@@ -1,0 +1,46 @@
+<% content_for :title, "Вход" %>
+
+<article class="auth-screen">
+  <div class="auth-container">
+    <div class="auth-form-card">
+      <header class="auth-intro">
+        <h1>Продолжить исследование</h1>
+        <p>Войдите, чтобы вернуться к сохраненным материалам и следить за новыми разборами.</p>
+      </header>
+
+      <%= form_for(resource, as: resource_name, url: session_path(resource_name), html: { class: "auth-form" }) do |f| %>
+        <%= render "devise/shared/error_messages", resource: resource %>
+
+        <div class="auth-fields">
+          <div class="auth-input-group">
+            <%= f.label :email, "Электронная почта", class: "field-label-strong" %>
+            <%= f.email_field :email, autofocus: true, autocomplete: "email", placeholder: "name@mail.ru", class: "text-input" %>
+          </div>
+
+          <div class="auth-input-group">
+            <%= f.label :password, "Пароль", class: "field-label-strong" %>
+            <%= f.password_field :password, autocomplete: "current-password", placeholder: "Не менее 8 символов", class: "text-input" %>
+            <%= link_to "Забыли пароль?", new_user_password_path, class: "auth-forgot" %>
+          </div>
+        </div>
+
+        <label class="auth-check">
+          <%= f.check_box :remember_me, class: "auth-check-input" %>
+          <span>Запомнить меня</span>
+        </label>
+
+        <div class="auth-actions">
+          <%= f.submit "Войти", class: "btn-primary" %>
+          <p class="auth-switch">Нет аккаунта? <%= link_to "Создать аккаунт", new_user_registration_path %></p>
+        </div>
+      <% end %>
+    </div>
+
+    <%= image_tag "auth/login.png", alt: "", class: "auth-side-art" %>
+  </div>
+</article>
+
+<footer class="auth-foot">
+  <p>Decode – музыкальное медиа об альбомах</p>
+  <p>© Decode, 2026</p>
+</footer>

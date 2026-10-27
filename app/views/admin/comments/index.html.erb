@@ -1,0 +1,26 @@
+<% content_for :title, "Комментарии" %>
+
+<section class="admin-page">
+  <header class="admin-head">
+    <h1>Комментарии</h1>
+    <p><%= russian_plural(@comments.size, "комментарий", "комментария", "комментариев") %></p>
+  </header>
+  <%= render "admin/nav" %>
+
+  <% if @comments.any? %>
+    <div class="admin-list">
+      <% @comments.each do |comment| %>
+        <article class="admin-row">
+          <div>
+            <h3><%= link_to comment.album.title, album_path(comment.album, anchor: "discussion") %></h3>
+            <p><%= comment.body %></p>
+            <p class="admin-muted"><%= comment.user&.email || "без автора" %> · <%= l(comment.created_at, format: :short) %></p>
+          </div>
+          <%= button_to "Удалить", admin_comment_path(comment), method: :delete, class: "dossier-linkish", form: { data: { turbo_confirm: "Удалить комментарий?" } } %>
+        </article>
+      <% end %>
+    </div>
+  <% else %>
+    <p class="dossier-empty">Комментариев пока нет.</p>
+  <% end %>
+</section>

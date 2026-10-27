@@ -1,0 +1,45 @@
+<% content_for :title, @album.title %>
+
+<p class="dossier-back">
+  <%= link_to "В каталог", albums_path %>
+</p>
+
+<section class="dossier-hero">
+  <div class="dossier-cover">
+    <% if @album.cover.present? %>
+      <%= image_tag @album.cover.url, alt: @album.title, class: "album-hero-cover" %>
+    <% else %>
+      <img src="/placeholder.jpg" alt="<%= @album.title %>" class="album-hero-cover">
+    <% end %>
+  </div>
+
+  <div class="dossier-hero-copy">
+    <p class="dossier-badge">Скоро</p>
+    <h1 class="dossier-title"><%= @album.title %></h1>
+    <p class="dossier-artist"><%= @album.artist %></p>
+
+    <ul class="dossier-meta">
+      <% if @album.year.present? %><li><%= @album.year %></li><% end %>
+      <% if @album.genre.present? %><li><%= @album.genre.split(%r{\s*/\s*}).first %></li><% end %>
+      <% if @album.duration.present? %><li><%= @album.duration %></li><% end %>
+    </ul>
+
+    <p class="dossier-lead">Разбор этого альбома будет позже. Карточка уже в каталоге — полный материал ещё готовится.</p>
+
+    <% if user_signed_in? && current_user.admin? %>
+      <div class="dossier-actions">
+        <%= link_to "Редактировать альбом", edit_album_path(@album), class: "dossier-propose" %>
+      </div>
+    <% end %>
+
+    <div class="dossier-actions">
+      <%= link_to "Вернуться в каталог", albums_path, class: "dossier-btn dossier-btn-fill" %>
+    </div>
+  </div>
+</section>
+
+<div class="dossier-body">
+  <div class="dossier-article">
+    <%= render "albums/discussion", album: @album %>
+  </div>
+</div>

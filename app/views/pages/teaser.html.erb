@@ -1,0 +1,93 @@
+<div class="teaser-shell">
+  <header class="teaser-top">
+    <div class="teaser-bar">
+      <%= link_to root_path, class: "teaser-logo-link" do %>
+        <%= image_tag "teaser/logo.svg", alt: "decode", class: "teaser-logo" %>
+      <% end %>
+      <button type="button" class="teaser-burger" aria-expanded="false" aria-controls="teaser-nav" aria-label="Меню">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+      <nav id="teaser-nav" class="teaser-nav">
+        <%= link_to "О проекте", about_path %>
+        <%= link_to "VK", "https://vk.com", target: "_blank", rel: "noopener" %>
+        <%= link_to "Telegram", "https://t.me", target: "_blank", rel: "noopener" %>
+        <%= link_to "Дзен", "https://dzen.ru", target: "_blank", rel: "noopener" %>
+      </nav>
+    </div>
+    <%= image_tag "teaser/rule.svg", alt: "", class: "teaser-rule" %>
+  </header>
+
+  <% if notice %>
+    <div class="teaser-modal" role="dialog" aria-modal="true" aria-labelledby="teaser-modal-title">
+      <button type="button" class="teaser-modal-backdrop" data-teaser-close aria-label="Закрыть"></button>
+      <div class="teaser-modal-card">
+        <button type="button" class="teaser-modal-close" data-teaser-close aria-label="Закрыть">×</button>
+        <p id="teaser-modal-title"><%= notice %></p>
+      </div>
+    </div>
+  <% end %>
+  <% if alert %>
+    <p class="teaser-flash teaser-flash-alert"><%= alert %></p>
+  <% end %>
+
+  <div class="teaser-hero">
+    <div class="teaser-copy">
+      <div class="teaser-intro">
+        <h1 class="teaser-title">первый разбор<br>уже готовится</h1>
+        <p class="teaser-lead">Decode собирает музыку, визуальный язык, историю создания и культурный контекст альбома. Оставьте почту, и мы пришлем ссылку, когда откроем первый материал</p>
+      </div>
+
+      <%= form_with url: subscribers_path, class: "teaser-form" do %>
+        <p class="teaser-form-label">Узнать о запуске</p>
+        <div class="teaser-fields">
+          <div class="teaser-form-row">
+            <%= email_field_tag :email, params[:email], placeholder: "Ваш E-mail", required: true, autocomplete: "email", class: "teaser-input" %>
+            <%= submit_tag "Подписаться", class: "teaser-submit" %>
+          </div>
+          <label class="teaser-consent">
+            <%= check_box_tag :consent, "1", false, required: true, class: "teaser-checkbox" %>
+            <span>Я даю согласие на обработку персональных данных и принимаю <%= link_to "Политику конфиденциальности", privacy_path, class: "teaser-policy-link" %></span>
+          </label>
+        </div>
+      <% end %>
+
+      <div class="teaser-pitch">
+        <p class="teaser-pitch-question">Есть альбом, который стоит разобрать?</p>
+        <%= link_to new_album_proposal_path, class: "teaser-pitch-link" do %>
+          <span>Предложить его редакции</span>
+          <%= image_tag "teaser/arrow.svg", alt: "", class: "teaser-arrow" %>
+        <% end %>
+      </div>
+    </div>
+
+    <%= image_tag "teaser/collage.png", alt: "Музыкальный архив в черно-белых фрагментах", class: "teaser-visual" %>
+  </div>
+
+  <footer class="teaser-footer">
+    <%= image_tag "teaser/rule.svg", alt: "", class: "teaser-rule" %>
+    <div class="teaser-footer-row">
+      <p>Decode – музыкальное медиа об альбомах</p>
+      <p>© Decode, 2026</p>
+    </div>
+  </footer>
+</div>
+
+<script>
+  document.querySelectorAll("[data-teaser-close]").forEach(function (button) {
+    button.addEventListener("click", function () {
+      var modal = button.closest(".teaser-modal")
+      if (modal) modal.remove()
+    })
+  })
+
+  var burger = document.querySelector(".teaser-burger")
+  var nav = document.getElementById("teaser-nav")
+  if (burger && nav) {
+    burger.addEventListener("click", function () {
+      var open = nav.classList.toggle("is-open")
+      burger.setAttribute("aria-expanded", open ? "true" : "false")
+    })
+  }
+</script>

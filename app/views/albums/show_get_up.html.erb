@@ -1,0 +1,119 @@
+<% content_for :title, "Get Up" %>
+<% theme_cards = [
+     { title: "История создания", body: "Раздел пока пуст." },
+     { title: "Звучание", body: "Раздел пока пуст." },
+     { title: "Персонажи и сюжеты", body: "Раздел пока пуст." },
+     { title: "Визуальный язык", body: "Раздел пока пуст." }
+   ] %>
+
+<p class="dossier-back">
+  <%= link_to "В каталог", albums_path %>
+</p>
+
+<section class="dossier-hero">
+  <div class="dossier-cover">
+    <% if @album.cover.present? %>
+      <%= image_tag @album.cover.url, alt: "Get Up", class: "album-hero-cover" %>
+    <% else %>
+      <img src="/placeholder.jpg" alt="Get Up" class="album-hero-cover">
+    <% end %>
+  </div>
+
+  <div class="dossier-hero-copy">
+    <p class="dossier-badge">Черновик разбора</p>
+    <h1 class="dossier-title">Get Up</h1>
+    <p class="dossier-artist">NewJeans</p>
+
+    <ul class="dossier-meta">
+      <li>2023</li>
+      <li>K-Pop</li>
+      <li>UK Garage</li>
+      <li>12 мин.</li>
+    </ul>
+
+    <ul class="dossier-pills">
+      <li>Y2K</li>
+      <li>Ностальгия</li>
+      <li>K-Pop</li>
+    </ul>
+
+    <p class="dossier-lead">Болванка разбора. Разделы те же, что у folklore — текст можно заполнить позже.</p>
+
+    <% if user_signed_in? && current_user.admin? %>
+      <div class="dossier-actions">
+        <%= link_to "Редактировать альбом", edit_album_path(@album), class: "dossier-propose" %>
+      </div>
+    <% end %>
+
+    <div class="dossier-actions">
+      <%= link_to "Слушать альбом", "https://music.youtube.com/search?q=#{u("NewJeans Get Up")}", class: "dossier-btn dossier-btn-fill", target: "_blank", rel: "noopener" %>
+      <button type="button" class="dossier-btn dossier-btn-line" data-share>Поделиться</button>
+    </div>
+
+    <div class="dossier-facts">
+      <div>
+        <p class="dossier-fact-label">Лейбл</p>
+        <p class="dossier-fact-value">ADOR</p>
+      </div>
+      <div>
+        <p class="dossier-fact-label">Продюссеры</p>
+        <p class="dossier-fact-value">—</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="dossier-body">
+  <nav class="dossier-toc" aria-label="Внутри альбома">
+    <p class="dossier-toc-title">Внутри альбома</p>
+    <a href="#about">Об альбоме</a>
+    <a href="#themes">Темы разбора</a>
+    <a href="#materials">Материалы</a>
+    <a href="#explore">Продолжить исследование</a>
+    <a href="#sources">Источники</a>
+    <a href="#discussion">Обсуждение</a>
+  </nav>
+
+  <div class="dossier-article">
+    <section id="about" class="dossier-block">
+      <h2>Об альбоме</h2>
+      <div class="dossier-prose">
+        <p class="dossier-empty">Текст раздела появится позже.</p>
+      </div>
+    </section>
+
+    <section id="themes" class="dossier-block">
+      <h2>Темы разбора</h2>
+      <p class="dossier-kicker">Выберите тему, чтобы перейти к материалам</p>
+      <div class="dossier-themes">
+        <% theme_cards.each do |card| %>
+          <article class="dossier-theme">
+            <h3><%= card[:title] %></h3>
+            <div class="dossier-theme-body"><%= simple_format(card[:body]) %></div>
+            <div class="dossier-theme-foot">
+              <span>скоро</span>
+              <a href="#materials">Смотреть ></a>
+            </div>
+          </article>
+        <% end %>
+      </div>
+    </section>
+
+    <section id="materials" class="dossier-block">
+      <h2>Материалы по альбому</h2>
+      <p class="dossier-empty">Материалы появятся позже.</p>
+    </section>
+
+    <section id="explore" class="dossier-block">
+      <h2>Продолжить исследование</h2>
+      <p class="dossier-empty">Подборки и соседние альбомы появятся позже.</p>
+    </section>
+
+    <section id="sources" class="dossier-block">
+      <h2>Источники</h2>
+      <p class="dossier-empty">Источники появятся позже.</p>
+    </section>
+
+    <%= render "albums/discussion", album: @album %>
+  </div>
+</div>

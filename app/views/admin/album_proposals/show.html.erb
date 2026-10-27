@@ -1,0 +1,16 @@
+<% content_for :title, @proposal.title %>
+
+<section class="admin-page">
+  <p class="dossier-back"><%= link_to "К заявкам", admin_album_proposals_path %></p>
+  <header class="admin-head">
+    <h1><%= @proposal.title %></h1>
+    <p><%= @proposal.artist %></p>
+  </header>
+
+  <div class="dossier-prose">
+    <p><%= @proposal.notes.presence || "Без комментария." %></p>
+    <p class="admin-muted">Получена <%= l(@proposal.created_at, format: :short) %></p>
+  </div>
+
+  <%= button_to "Удалить заявку", admin_album_proposal_path(@proposal), method: :delete, class: "dossier-btn dossier-btn-line", form: { data: { turbo_confirm: "Удалить заявку?" } } %>
+</section>

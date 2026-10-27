@@ -2,18 +2,22 @@ class Ability
   include CanCan::Ability
 
   def initialize(user)
-    user ||= User.new # гость (незалогиненный)
+    user ||= User.new
 
     if user.admin?
       can :manage, :all
     elsif user.persisted?
-      # Зарегистрированный пользователь
-      can :read, :all
+      can :read, Album
+      can :search, Album
+      can :read, ThematicSection
       can :create, Comment
-      can :destroy, Comment, user_id: user.id if Comment.column_names.include?('user_id')
+      can :destroy, Comment, user_id: user.id
+      can :create, AlbumProposal
     else
-      # Гость
-      can :read, :all
+      can :read, Album
+      can :search, Album
+      can :read, ThematicSection
+      can :create, AlbumProposal
     end
   end
 end

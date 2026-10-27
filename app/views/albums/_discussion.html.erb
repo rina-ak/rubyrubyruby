@@ -1,0 +1,32 @@
+<section id="discussion" class="dossier-block dossier-discussion">
+  <h2>Обсуждение</h2>
+
+  <% if album.comments.any? %>
+    <div class="dossier-comments">
+      <% album.comments.order(created_at: :desc).each do |comment| %>
+        <article class="dossier-comment" id="<%= dom_id(comment) %>">
+          <p><%= comment.body %></p>
+          <div class="dossier-comment-meta">
+            <span><%= comment.user&.email || "Гость" %></span>
+            <time datetime="<%= comment.created_at.iso8601 %>"><%= l(comment.created_at, format: :short) %></time>
+            <% if can?(:destroy, comment) %>
+              <%= button_to "Удалить", album_comment_path(album, comment), method: :delete, class: "dossier-linkish" %>
+            <% end %>
+          </div>
+        </article>
+      <% end %>
+    </div>
+  <% else %>
+    <p class="dossier-empty">Тут пока пусто...</p>
+  <% end %>
+
+  <% if user_signed_in? && can?(:create, Comment) %>
+    <%= form_with model: [album, Comment.new], class: "dossier-comment-form" do |form| %>
+      <%= form.label :body, "Ваш комментарий", class: "visually-hidden" %>
+      <%= form.text_area :body, required: true, class: "dossier-comment-input", placeholder: "Написать комментарий" %>
+      <%= form.submit "Отправить", class: "dossier-btn dossier-btn-fill" %>
+    <% end %>
+  <% else %>
+    <p class="dossier-comment-gate"><%= link_to "Войдите", new_user_session_path %>, чтобы оставить комментарий.</p>
+  <% end %>
+</section>
